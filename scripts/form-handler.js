@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
         method: "POST",
         body: JSON.stringify(payload),
         headers: { "Content-Type": "application/json" },
