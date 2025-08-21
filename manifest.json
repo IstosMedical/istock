@@ -1,3 +1,6 @@
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#0055a5" />
+
 {
   "name": "ISTOCK",
   "short_name": "ISTOCK",
