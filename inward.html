@@ -159,6 +159,7 @@
     const quantity = params.get("quantity");
     const source = params.get("source");
     const type = params.get("type") || "inward";
+    console.log("Submitting payload:", payload);
 
     if (!item || !quantity || !source) {
       alert("Missing required parameters.");
@@ -184,15 +185,14 @@
       });
       const result = await res.json();
       alert(result.message);
-    } catch (err) {
-      alert("Error submitting form. Please try again.");
-    } finally {
-      spinner.style.display = "none";
-    }
+  } catch (err) {
+    console.error("Submission error:", err); // Logs full error object
+    alert("Error submitting form. Please try again.");
+  } finally {
+    spinner.style.display = "none";
   }
 
   window.onload = submitInwardFromURL;
-  console.log("Submitting payload:", payload);
 
 </script>
 
