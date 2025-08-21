@@ -4,22 +4,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
+    const payload = {
+      type: "inward",
+      item: document.getElementById("item").value,
+      quantity: document.getElementById("quantity").value,
+      date: document.getElementById("date").value
+    };
 
     try {
       const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
         method: "POST",
-        body: JSON.stringify(payload),
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
 
       const result = await res.json();
       responseMsg.textContent = result.message || "Submission successful!";
+      responseMsg.style.color = "#27ae60";
       form.reset();
     } catch (err) {
       responseMsg.textContent = "Error submitting form. Please try again.";
-      console.error(err);
+      responseMsg.style.color = "#c0392b";
+      console.error("Submission error:", err);
     }
   });
 });
