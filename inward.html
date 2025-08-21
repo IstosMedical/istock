@@ -151,7 +151,7 @@
       width: 100%;
     }
   }
-
+</style>
 <script>
   async function submitInwardFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -194,7 +194,8 @@
   window.onload = submitInwardFromURL;
 </script>
 
-
+<script src="scripts/form-handler.js"></script>
+    
 <div id="spinner" style="display:none; text-align:center; margin-top:30px;">
   <svg width="50" height="50" viewBox="0 0 100 100">
     <circle cx="50" cy="50" r="40" stroke="#2980b9" stroke-width="8" fill="none" stroke-linecap="round">
@@ -203,10 +204,7 @@
   </svg>
   <p style="color:#2980b9; font-weight:600;">Submitting to ISTOCK...</p>
 </div>  
-</style>
-
-<script src="scripts/form-handler.js"></script>
-
+    
 </body>
 </head>
 </html>
