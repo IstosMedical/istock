@@ -10,3 +10,40 @@
 <meta name="theme-color" content="#0055a5" />
 
 
+<body class="bg-gray-50 min-h-screen font-sans">
+  <!-- Header -->
+  <header class="bg-[#0055a5] text-white p-4 shadow-md">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <h1 class="text-lg font-semibold">ISTOCK Inward Entry</h1>
+      <img src="/assets/istos-logo.png" alt="ISTOS Logo" class="h-8 w-auto" />
+    </div>
+  </header>
+
+  <!-- Form Card -->
+  <main class="max-w-xl mx-auto mt-8 px-4">
+    <form class="bg-white shadow-md rounded-lg p-6 space-y-4" id="inward-form">
+      <div>
+        <label for="item" class="block text-sm font-medium text-gray-700">Item Name</label>
+        <input type="text" id="item" name="item" required
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-[#0055a5] focus:border-[#0055a5]" />
+      </div>
+
+      <div>
+        <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+        <input type="number" id="quantity" name="quantity" required
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-[#0055a5] focus:border-[#0055a5]" />
+      </div>
+
+      <div>
+        <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+        <input type="date" id="date" name="date" required
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-[#0055a5] focus:border-[#0055a5]" />
+      </div>
+
+      <button type="submit"
+        class="w-full bg-[#0055a5] text-white py-2 px-4 rounded-md hover:bg-[#003f7f] transition">
+        Submit Entry
+      </button>
+    </form>
+  </main>
+</body>
