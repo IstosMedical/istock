@@ -112,18 +112,25 @@
 </style>
 
 <form id="inwardForm">
-  <label for="date">📦 Inward Stock Entry Date:</label>
-  <input type="date" id="date" name="date" class="half-width" /><BR>
-    <label>Item:
-      <input type="text" name="item" required />
+    
+  <label>Date:
+    <input type="date" id="date" name="date" class="half-width" />
+    <div style="margin-bottom: 16px;"></div> <!-- 1 line gap -->
+    </label> 
+    
+  <label>Item:
+    <input type="text" name="item" required />
     </label>
-    <label>Quantity:
+    
+  <label>Quantity:
     <input type="number" name="quantity" required maxlength="3" style="width: 80px;" />
     </label>
-    <label>Source:
-      <input type="text" name="source" required />
+    
+  <label>Source:
+    <input type="text" name="source" required />
     </label>
-    <button type="submit" id="submitBtn">
+    
+  <button type="submit" id="submitBtn">
       Submit
     </button>
   </form>
