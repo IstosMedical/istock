@@ -9,7 +9,7 @@ document.getElementById('inwardForm').addEventListener('submit', async (e) => {
     quantity: e.target.quantity.value,
     date: e.target.date.value
   };
-  await fetch('YOUR_WEB_APP_URL', {
+  await fetch('AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec', {
     method: 'POST',
     body: JSON.stringify(formData)
   });
@@ -28,7 +28,7 @@ document.getElementById("inward-form").addEventListener("submit", async (e) => {
   };
 
   try {
-    const res = await fetch("https://script.google.com/macros/s/YOUR_DEPLOYED_ID/exec", {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
