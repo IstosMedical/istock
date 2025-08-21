@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inward Stock Entry</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0055a5" />
+  <link rel="stylesheet" href="styles/tailwind.css" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/scripts/sw.js');
+    }
+  </script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen">
+  <header class="bg-[#0055a5] text-white p-4 text-center shadow">
+    <h1 class="text-xl font-semibold">Inward Stock Entry</h1>
+  </header>
+
+  <main class="max-w-md mx-auto mt-8 p-4 bg-white rounded-md shadow space-y-4">
+    <form id="inwardForm">
+      <input type="text" name="item" placeholder="Item Name" required class="w-full p-2 border rounded" />
+      <input type="number" name="quantity" placeholder="Quantity" required class="w-full p-2 border rounded" />
+      <input type="text" name="source" placeholder="Source" required class="w-full p-2 border rounded" />
+      <button type="submit" class="w-full bg-[#0055a5] text-white py-2 rounded hover:bg-[#003f7f]">
+        Submit
+      </button>
+    </form>
+    <div id="responseMsg" class="text-center text-green-600 font-medium"></div>
+  </main>
+
+  <script src="scripts/form-handler.js"></script>
+</body>
+</html>
