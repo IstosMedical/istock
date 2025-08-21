@@ -1,4 +1,6 @@
 // inward.js
+const endpoint = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
+
 document.getElementById('inwardForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = {
