@@ -2,10 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
   const responseMsg = document.getElementById("responseMsg");
 
+  // Detect form type from data attribute (e.g., data-type="inward" or "outward")
+  const formType = form.getAttribute("data-type") || "inward";
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     const payload = {
-      type: "inward",
+      type: formType,
       item: document.getElementById("item").value,
       quantity: document.getElementById("quantity").value,
       date: document.getElementById("date").value
