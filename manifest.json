@@ -1,1 +1,23 @@
+{
+  "name": "ISTOCK",
+  "short_name": "ISTOCK",
+  "description": "Stock Inward & Outward Forms with Google Sheet Sync",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0055a5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "istos-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "istos-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
 
