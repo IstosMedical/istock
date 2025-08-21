@@ -104,9 +104,16 @@
 <body>
   <h2>📦 Inward Stock Entry</h2>
   <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec" target="hiddenFrame">
-    <label>Date:
-      <input type="date" name="date" required />
-    </label>
+<style>
+  .half-width {
+    width: 50%;
+    box-sizing: border-box;
+  }
+</style>
+
+<form id="inwardForm">
+  <label for="date">📦 Inward Stock Entry Date:</label>
+  <input type="date" id="date" name="date" class="half-width" />
     <label>Item:
       <input type="text" name="item" required />
     </label>
