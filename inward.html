@@ -152,7 +152,7 @@
     const item = params.get("item");
     const quantity = params.get("quantity");
     const source = params.get("source");
-    const type = params.get("type") || "inward"; // fallback if missing
+    const type = params.get("type") || "inward";
 
     if (!item || !quantity || !source) {
       alert("Missing required parameters.");
@@ -167,6 +167,9 @@
       date: new Date().toLocaleDateString()
     };
 
+    const spinner = document.getElementById("spinner");
+    spinner.style.display = "block";
+
     try {
       const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
         method: "POST",
@@ -177,12 +180,14 @@
       alert(result.message);
     } catch (err) {
       alert("Error submitting form. Please try again.");
+    } finally {
+      spinner.style.display = "none";
     }
   }
 
-  // Trigger submission on page load
   window.onload = submitInwardFromURL;
 </script>
+
 
 <div id="spinner" style="display:none; text-align:center; margin-top:30px;">
   <svg width="50" height="50" viewBox="0 0 100 100">
