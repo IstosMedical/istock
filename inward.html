@@ -152,6 +152,7 @@
     }
   }
 </style>
+    
 <script>
   async function submitInwardFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -175,7 +176,7 @@
     };
 
     const spinner = document.getElementById("spinner");
-    spinner.style.display = "block";
+    spinner.style.display = "none";
 
     try {
       const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
@@ -205,7 +206,7 @@
     </circle>
   </svg>
   <p style="color:#2980b9; font-weight:600;">Submitting to ISTOCK...</p>
-</div>  
+</div>
     
 </body>
 </head>
