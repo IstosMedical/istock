@@ -1,115 +1,29 @@
-<link rel="stylesheet" href="styles/tailwind.css" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISTOCK App</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0055a5" />
+  <link rel="stylesheet" href="styles/tailwind.css" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/scripts/sw.js');
+    }
+  </script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col items-center justify-center text-center p-6">
+  <h1 class="text-2xl font-semibold text-[#0055a5] mb-4">Welcome to iSTOCK</h1>
+  <p class="text-gray-700 mb-6">Tap below to begin stock entry for field operations.</p>
 
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0055a5" />
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/scripts/sw.js');
-  }
-</script>
-
-
-
-<link rel="apple-touch-startup-image" href="assets/splash-ios.png">
-
-<body class="bg-gray-50 font-sans min-h-screen">
-  <header class="bg-[#0055a5] text-white p-4 text-center shadow">
-    <h1 class="text-xl font-semibold">iSTOCK App</h1>
-  </header>
-
-  <main class="max-w-md mx-auto mt-10 space-y-6 text-center">
+  <div class="space-y-4 w-full max-w-sm">
     <a href="inward.html" class="block bg-[#0055a5] text-white py-3 rounded-md shadow hover:bg-[#003f7f]">
       ➕ Inward Stock Entry
     </a>
     <a href="outward.html" class="block bg-[#0055a5] text-white py-3 rounded-md shadow hover:bg-[#003f7f]">
       ➖ Outward Stock Entry
     </a>
-  </main>
+  </div>
 </body>
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ISTOS Lead Submission</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- android App Settings -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- iOS App Settings -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="ISTOS Leads">
-  <link rel="apple-touch-icon" href="icons/icon-192.jpg">
-
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
-                  url('OLC2.png') no-repeat center center fixed;
-      background-size: cover;
-      text-align: center;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 10px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 11px rgba(0,0,0,0.1);
-    }
-
-    .logo {
-      max-width: 160px;
-      margin-bottom: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-
-    h2 {
-      color: #2c3e50;
-      margin-bottom: 20px;
-    }
-
-    p {
-      color: #555;
-      font-size: 16px;
-      margin-bottom: 30px;
-    }
-
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    button:hover {
-      background-color: #1c5980;
-      transform: scale(1.05);
-    }
-
-    @media screen and (max-width: 600px) {
-      .container {
-        margin: 40px 20px;
-        padding: 30px 20px;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-
+</html>
