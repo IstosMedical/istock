@@ -1,11 +1,33 @@
 <!-- inward.html -->
 
+<script src="scripts/form-handler.js"></script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ISTOS Lead Submission</title>
+<body>
+  <div class="container">
+    <img src="OLC.png" alt="ISTOS Medical Logo" class="logo">
+
+<!-- Title and Date with Line Gap -->
+<!-- Date Block with No Wrapping -->
+<div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+  <div style="font-size: 14px; color: #333; white-space: nowrap;">
+    🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+  </div>
+</div>
+
+  <main class="max-w-md mx-auto mt-8 p-4 bg-white rounded-md shadow space-y-4">
+    <form id="outwardForm">
+      <input type="text" name="item" placeholder="Item Name" required class="w-full p-2 border rounded" />
+      <input type="number" name="quantity" placeholder="Quantity" required class="w-full p-2 border rounded" />
+      <input type="text" name="destination" placeholder="Destination" required class="w-full p-2 border rounded" />
+      <button type="submit" class="w-full bg-[#0055a5] text-white py-2 rounded hover:bg-[#003f7f]">
+        Submit
+      </button>
+    </form>
+    <div id="responseMsg" class="text-center text-green-600 font-medium"></div>
+  </main>
 
   <!-- android App Settings -->
   <link rel="manifest" href="manifest.json">
@@ -127,33 +149,7 @@
     }
   }
 </style>
-
 </head>
-<body>
-  <div class="container">
-    <img src="OLC.png" alt="ISTOS Medical Logo" class="logo">
-
-<!-- Title and Date with Line Gap -->
-<!-- Date Block with No Wrapping -->
-<div style="display: flex; justify-content: flex-end; margin-top: 4px;">
-  <div style="font-size: 14px; color: #333; white-space: nowrap;">
-    🗓️ Date: <span id="currentDate">16 Aug 2025</span>
-  </div>
-</div>
-
-  <main class="max-w-md mx-auto mt-8 p-4 bg-white rounded-md shadow space-y-4">
-    <form id="outwardForm">
-      <input type="text" name="item" placeholder="Item Name" required class="w-full p-2 border rounded" />
-      <input type="number" name="quantity" placeholder="Quantity" required class="w-full p-2 border rounded" />
-      <input type="text" name="destination" placeholder="Destination" required class="w-full p-2 border rounded" />
-      <button type="submit" class="w-full bg-[#0055a5] text-white py-2 rounded hover:bg-[#003f7f]">
-        Submit
-      </button>
-    </form>
-    <div id="responseMsg" class="text-center text-green-600 font-medium"></div>
-  </main>
-
-  <script src="scripts/form-handler.js"></script>
 </body>
 </html>
 
