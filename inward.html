@@ -111,7 +111,6 @@
       <input type="text" name="item" required />
     </label>
     <label>Quantity:
-      <label>Quantity:
     <input type="number" name="quantity" required maxlength="3" style="width: 80px;" />
     </label>
     <label>Source:
@@ -128,14 +127,25 @@
   <script>
     const form = document.getElementById("inwardForm");
     const messageBox = document.getElementById("message");
-
-    form.addEventListener("submit", function () {
-      messageBox.textContent = "✅ Submitted successfully";
+  
+    form.addEventListener("submit", handleFormSubmit);
+  
+    function handleFormSubmit() {
+      showSuccessMessage("✅ Submitted successfully");
+      resetFormAfterDelay(3000);
+    }
+  
+    function showSuccessMessage(message) {
+      messageBox.textContent = message;
+    }
+  
+    function resetFormAfterDelay(delay) {
       setTimeout(() => {
         messageBox.textContent = "";
         form.reset();
-      }, 3000);
-    });
+      }, delay);
+    }
   </script>
+
 </body>
 </html>
