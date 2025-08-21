@@ -1,25 +1,7 @@
 // inward.js
-const endpoint = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
-
-document.getElementById('inwardForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const formData = {
-    type: 'Inward',
-    item: e.target.item.value,
-    quantity: e.target.quantity.value,
-    date: e.target.date.value
-  };
-  await fetch('AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec', {
-    method: 'POST',
-    body: JSON.stringify(formData)
-  });
-  alert('Inward entry submitted!');
-});
-
 
 document.getElementById("inward-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-
   const payload = {
     type: "inward",
     item: document.getElementById("item").value,
@@ -34,10 +16,11 @@ document.getElementById("inward-form").addEventListener("submit", async (e) => {
       body: JSON.stringify(payload)
     });
 
-    const result = await res.text();
-    alert(result);
+    const result = await res.json();
+    alert(result.message || "Submission successful!");
     e.target.reset();
   } catch (err) {
     alert("Submission failed. Please try again.");
+    console.error("Error:", err);
   }
 });
