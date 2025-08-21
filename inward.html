@@ -153,61 +153,66 @@
   }
 </style>
     
-<script>
-  async function submitInwardFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    const item = params.get("item");
-    const quantity = params.get("quantity");
-    const source = params.get("source");
-    const type = params.get("type") || "inward";
-    console.log("Submitting payload:", payload);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ISTOCK Inward Submission</title>
+  <script>
+    window.onload = async function submitInwardFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const item = params.get("item");
+      const quantity = params.get("quantity");
+      const source = params.get("source");
+      const type = params.get("type") || "inward";
 
-    if (!item || !quantity || !source) {
-      alert("Missing required parameters.");
-      return;
-    }
+      if (!item || !quantity || !source) {
+        alert("Missing required parameters.");
+        return;
+      }
 
-    const payload = {
-      type,
-      item,
-      quantity,
-      source,
-      date: new Date().toLocaleDateString()
+      const payload = {
+        type,
+        item,
+        quantity,
+        source,
+        date: new Date().toLocaleDateString()
+      };
+
+      console.log("Submitting payload:", payload);
+
+      const spinner = document.getElementById("spinner");
+      if (spinner) spinner.style.display = "block";
+
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" }
+        });
+
+        const result = await res.json();
+        alert(result.message);
+      } catch (err) {
+        console.error("Submission error:", err);
+        alert("Error submitting form. Please try again.");
+      } finally {
+        if (spinner) spinner.style.display = "none";
+      }
     };
-
-    const spinner = document.getElementById("spinner");
-    spinner.style.display = "none";
-
-    try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
-      });
-      const result = await res.json();
-      alert(result.message);
-  } catch (err) {
-    console.error("Submission error:", err); // Logs full error object
-    alert("Error submitting form. Please try again.");
-  } finally {
-    spinner.style.display = "none";
-  }
-
-  window.onload = submitInwardFromURL;
-
-</script>
-
-<script src="scripts/form-handler.js"></script>
-    
-<div id="spinner" style="display:none; text-align:center; margin-top:30px;">
-  <svg width="50" height="50" viewBox="0 0 100 100">
-    <circle cx="50" cy="50" r="40" stroke="#2980b9" stroke-width="8" fill="none" stroke-linecap="round">
-      <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" from="0 50 50" to="360 50 50"/>
-    </circle>
-  </svg>
-  <p style="color:#2980b9; font-weight:600;">Submitting to ISTOCK...</p>
-</div>
-    
-</body>
+  </script>
+  <script src="scripts/form-handler.js"></script>
 </head>
+<body>
+
+  <div id="spinner" style="display:none; text-align:center; margin-top:30px;">
+    <svg width="50" height="50" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="40" stroke="#2980b9" stroke-width="8" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" from="0 50 50" to="360 50 50"/>
+      </circle>
+    </svg>
+    <p style="color:#2980b9; font-weight:600;">Submitting to ISTOCK...</p>
+  </div>
+
+</body>
 </html>
