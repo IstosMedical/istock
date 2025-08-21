@@ -121,31 +121,32 @@
     </button>
   </form>
 
-  <iframe name="hiddenFrame" style="display:none;"></iframe>
-  <div id="message" class="success">✅ Submitted successfully</div>
+<script>
+  const form = document.getElementById("inwardForm");
+  const messageBox = document.getElementById("message");
 
-  <script>
-    const form = document.getElementById("inwardForm");
-    const messageBox = document.getElementById("message");
-  
-    form.addEventListener("submit", handleFormSubmit);
-  
-    function handleFormSubmit() {
-      showSuccessMessage("✅ Submitted successfully");
-      resetFormAfterDelay(3000);
-    }
-  
-    function showSuccessMessage(message) {
-      messageBox.textContent = message;
-    }
-  
-    function resetFormAfterDelay(delay) {
-      setTimeout(() => {
-        messageBox.textContent = "";
-        form.reset();
-      }, delay);
-    }
-  </script>
+  // Clear message on page load
+  window.addEventListener("load", () => {
+    messageBox.textContent = "";
+  });
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent page reload
+    showSuccessMessage("✅ Submitted successfully");
+    resetFormAfterDelay(3000);
+  });
+
+  function showSuccessMessage(message) {
+    messageBox.textContent = message;
+  }
+
+  function resetFormAfterDelay(delay) {
+    setTimeout(() => {
+      messageBox.textContent = "";
+      form.reset();
+    }, delay);
+  }
+</script>
 
 </body>
 </html>
