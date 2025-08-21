@@ -1,218 +1,115 @@
-<!-- inward.html -->
-
-<!DOCTYPE html>
-<html lang="en">
-<body>
-  <div class="container">
-    <img src="OLC.png" alt="ISTOS Medical Logo" class="logo">
-
-<!-- Title and Date with Line Gap -->
-<!-- Date Block with No Wrapping -->
-<div style="display: flex; justify-content: flex-end; margin-top: 4px;">
-  <div style="font-size: 14px; color: #333; white-space: nowrap;">
-    🗓️ Date: <span id="currentDate">16 Aug 2025</span>
-  </div>
-</div>
-
-  <main class="max-w-md mx-auto mt-8 p-4 bg-white rounded-md shadow space-y-4">
-  <form id="inward-form" data-type="inward">
-    <label for="item">Item</label>
-    <input type="text" id="item" name="item" required />
-  
-    <label for="quantity">Quantity</label>
-    <input type="number" id="quantity" name="quantity" required />
-  
-    <label for="date">Date</label>
-    <input type="date" id="date" name="date" required />
-  
-    <button type="submit">Submit</button>
-  </form>
-  <div id="responseMsg"></div>
-
-<!-- Link to your JS -->
-<script src="scripts/form-handler.js"></script>
-
-   <!-- android App Settings -->
-  <link rel="manifest" href="manifest.json">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- iOS App Settings -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="ISTOS Leads">
-
-<!-- iOS Splash Screen Icon -->
-  <link rel="apple-touch-icon" href="icons/icon-192.jpg">
-
-<style>
-  input, textarea, select {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-</style>
-
-  <style>    
-  .container {
-    max-width: 600px;
-    margin: 20px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-
-  .logo {
-    display: block;
-    margin: 0 auto 30px;
-    max-width: 180px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease;
-  }
-
-  .logo:hover {
-    transform: scale(1.05);
-  }
-
-  h2 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-
-  label {
-    display: block;
-    margin-top: 15px;
-    font-weight: 600;
-    color: #34495e;
-  }
-
-  input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-  }
-
-  button {
-    margin-top: 20px;
-    width: 200px;
-    padding: 10px;
-    background-color: #2980b9;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-
-  button:hover {
-    background-color: #1c5980;
-    transform: scale(1.03);
-  }
-
-  .success {
-    text-align: center;
-    color: green;
-    margin-top: 15px;
-  }
-
-  .error {
-    text-align: center;
-    color: red;
-    margin-top: 15px;
-  }
-
-  @media screen and (max-width: 600px) {
-    .container {
-      margin: 10px;
-      padding: 20px;
-    }
-
-    input, select, textarea {
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-    }
-  }
-</style>
-    
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>ISTOCK Inward Submission</title>
-  <script>
-    window.onload = async function submitInwardFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      const item = params.get("item");
-      const quantity = params.get("quantity");
-      const source = params.get("source");
-      const type = params.get("type") || "inward";
-
-      if (!item || !quantity || !source) {
-        alert("Missing required parameters.");
-        return;
-      }
-
-      const payload = {
-        type,
-        item,
-        quantity,
-        source,
-        date: new Date().toLocaleDateString()
-      };
-
-      console.log("Submitting payload:", payload);
-
-      const spinner = document.getElementById("spinner");
-      if (spinner) spinner.style.display = "block";
-
-      try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" }
-        });
-
-        const result = await res.json();
-        alert(result.message);
-      } catch (err) {
-        console.error("Submission error:", err);
-        alert("Error submitting form. Please try again.");
-      } finally {
-        if (spinner) spinner.style.display = "none";
-      }
-    };
-  </script>
-  <script src="scripts/form-handler.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    #spinner {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .success {
+      color: green;
+      margin-top: 15px;
+      text-align: center;
+    }
+    .error {
+      color: red;
+      margin-top: 15px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+  <h2>📦 Inward Stock Entry</h2>
+  <form id="inwardForm">
+    <label>Date:
+      <input type="date" name="date" required>
+    </label>
+    <label>Item:
+      <input type="text" name="item" required>
+    </label>
+    <label>Quantity:
+      <input type="number" name="quantity" required>
+    </label>
+    <label>Source:
+      <input type="text" name="source" required>
+    </label>
+    <button type="submit" id="submitBtn">
+      <span id="btnText">Submit</span>
+      <span id="spinnerIcon" style="display: none;">⏳</span>
+    </button>
+  </form>
 
-  <div id="spinner" style="display:none; text-align:center; margin-top:30px;">
-    <svg width="50" height="50" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="40" stroke="#2980b9" stroke-width="8" fill="none" stroke-linecap="round">
-        <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" from="0 50 50" to="360 50 50"/>
-      </circle>
-    </svg>
-    <p style="color:#2980b9; font-weight:600;">Submitting to ISTOCK...</p>
-  </div>
+  <div id="message"></div>
 
+  <script>
+    document.getElementById("inwardForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("submitBtn");
+      const btnText = document.getElementById("btnText");
+      const spinnerIcon = document.getElementById("spinnerIcon");
+      const messageBox = document.getElementById("message");
+
+      submitBtn.disabled = true;
+      btnText.textContent = "Submitting...";
+      spinnerIcon.style.display = "inline";
+
+      const formData = new FormData(this);
+      const payload = {};
+      formData.forEach((value, key) => {
+        payload[key] = value;
+      });
+
+      fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        messageBox.innerHTML = `<div class="success">✅ ${data.message}</div>`;
+        this.reset();
+      })
+      .catch(error => {
+        messageBox.innerHTML = `<div class="error">❌ Submission failed: ${error}</div>`;
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        btnText.textContent = "Submit";
+        spinnerIcon.style.display = "none";
+      });
+    });
+  </script>
 </body>
 </html>
