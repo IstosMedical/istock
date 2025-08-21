@@ -2,59 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>iSTOCK Master Dashboard</title>
+  <title>ISTOCK Inventory Summary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
+      margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #f4f6f8;
-      padding: 20px;
+      background: #f0f2f5;
+      padding: 16px;
+    }
+    h2 {
       text-align: center;
+      color: #0055a5;
+      margin-bottom: 20px;
     }
-    table {
-      margin: auto;
-      border-collapse: collapse;
-      width: 80%;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    th, td {
-      padding: 12px;
-      border: 1px solid #ccc;
+    .item-name {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #333;
     }
-    th {
-      background-color: #0055a5;
-      color: white;
+    .balance {
+      font-size: 1em;
+      color: #0055a5;
     }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
+    @media (min-width: 600px) {
+      .card {
+        max-width: 500px;
+        margin: 12px auto;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>📦 iSTOCK Master Inventory</h2>
-  <table id="stockTable">
-    <thead>
-      <tr><th>Item</th><th>Balance</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <h2>📦 ISTOCK Summary</h2>
+  <div id="cardContainer"></div>
 
   <script>
-    async function loadStock() {
+    async function loadCards() {
       const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec?view=master");
       const data = await res.json();
-      const tbody = document.querySelector("#stockTable tbody");
-      tbody.innerHTML = "";
+      const container = document.getElementById("cardContainer");
+      container.innerHTML = "";
 
       data.forEach(row => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${row.item}</td><td>${row.balance}</td>`;
-        tbody.appendChild(tr);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="item-name">${row.item}</div>
+          <div class="balance">${row.balance}</div>
+        `;
+        container.appendChild(card);
       });
     }
 
-    loadStock();
+    loadCards();
   </script>
 </body>
 </html>
