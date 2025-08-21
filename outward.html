@@ -18,16 +18,16 @@
 </div>
 
   <main class="max-w-md mx-auto mt-8 p-4 bg-white rounded-md shadow space-y-4">
-    <form id="outwardForm">
-      <input type="text" name="item" placeholder="Item Name" required class="w-full p-2 border rounded" />
-      <input type="number" name="quantity" placeholder="Quantity" required class="w-full p-2 border rounded" />
-      <input type="text" name="destination" placeholder="Destination" required class="w-full p-2 border rounded" />
-      <button type="submit" class="w-full bg-[#0055a5] text-white py-2 rounded hover:bg-[#003f7f]">
-        Submit
-      </button>
-    </form>
-    <div id="responseMsg" class="text-center text-green-600 font-medium"></div>
-  </main>
+  <form id="outward-form" data-type="outward">
+    <input type="text" id="item" name="item" required />
+    <input type="number" id="quantity" name="quantity" required />
+    <input type="date" id="date" name="date" required />
+    <button type="submit">Submit</button>
+  </form>
+  <div id="responseMsg"></div>
+  
+  <!-- Link to your JS -->
+  <script src="scripts/form-handler.js"></script>
 
   <!-- android App Settings -->
   <link rel="manifest" href="manifest.json">
