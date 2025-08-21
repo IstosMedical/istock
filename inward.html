@@ -2,20 +2,32 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <body>
-<div>
   <div class="container">
     <img src="OLC.png" alt="ISTOS Medical Logo" class="logo">
+
+<!-- Title and Date with Line Gap -->
+<!-- Date Block with No Wrapping -->
+<div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+  <div style="font-size: 14px; color: #333; white-space: nowrap;">
+    🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+  </div>
 </div>
 
-<form id="inward-form" data-type="inward">
-  <input type="text" id="item" name="item" required />
-  <input type="number" id="quantity" name="quantity" required />
-  <input type="date" id="date" name="date" required />
-  <button type="submit">Submit</button>
-</form>
-<div id="responseMsg"></div>
+  <main class="max-w-md mx-auto mt-8 p-4 bg-white rounded-md shadow space-y-4">
+  <form id="inward-form" data-type="inward">
+    <label for="item">Item</label>
+    <input type="text" id="item" name="item" required />
+  
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" name="quantity" required />
+  
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date" required />
+  
+    <button type="submit">Submit</button>
+  </form>
+  <div id="responseMsg"></div>
 
 <!-- Link to your JS -->
 <script src="scripts/form-handler.js"></script>
@@ -192,6 +204,7 @@
   <p style="color:#2980b9; font-weight:600;">Submitting to ISTOCK...</p>
 </div>
 
+<script src="scripts/form-handler.js"></script>
     
 </style>
 </body>
