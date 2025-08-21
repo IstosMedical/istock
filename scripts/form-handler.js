@@ -2,28 +2,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("inward-form");
   const responseMsg = document.getElementById("responseMsg");
 
-  form.addEventListener("submit", handleSubmit);
-
-  async function handleSubmit(e) {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const payload = {
-      type: "inward",
-      item: document.getElementById("item").value.trim(),
-      quantity: document.getElementById("quantity").value.trim(),
-      date: document.getElementById("date").value.trim()
+      date: document.getElementById("date").value,
+      item: document.getElementById("item").value,
+      quantity: document.getElementById("quantity").value,
+      source: document.getElementById("source").value
     };
 
-    await submitToSheet(payload);
-  }
-
-  async function submitToSheet(payload) {
     try {
       const res = await fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
@@ -32,9 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
       responseMsg.style.color = "green";
       form.reset();
     } catch (err) {
-      responseMsg.textContent = "❌ Error submitting form. Please try again.";
+      responseMsg.textContent = "❌ Error submitting form.";
       responseMsg.style.color = "red";
       console.error("Submission error:", err);
     }
-  }
+  });
 });
