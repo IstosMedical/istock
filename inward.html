@@ -3,22 +3,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inward Stock Entry</title>
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0055a5" />
-  <link rel="stylesheet" href="styles/tailwind.css" />
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/scripts/sw.js');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISTOS Lead Submission</title>
+
+  <!-- android App Settings -->
+  <link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- iOS App Settings -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ISTOS Leads">
+
+<!-- iOS Splash Screen Icon -->
+  <link rel="apple-touch-icon" href="icons/icon-192.jpg">
+
+<style>
+  input, textarea, select {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+</style>
+
+  <style>    
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .logo {
+    display: block;
+    margin: 0 auto 30px;
+    max-width: 180px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+  }
+
+  .logo:hover {
+    transform: scale(1.05);
+  }
+
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #34495e;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  button {
+    margin-top: 20px;
+    width: 200px;
+    padding: 10px;
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #1c5980;
+    transform: scale(1.03);
+  }
+
+  .success {
+    text-align: center;
+    color: green;
+    margin-top: 15px;
+  }
+
+  .error {
+    text-align: center;
+    color: red;
+    margin-top: 15px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .container {
+      margin: 10px;
+      padding: 20px;
     }
-  </script>
+
+    input, select, textarea {
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+</style>
+
 </head>
-<body class="bg-gray-50 font-sans min-h-screen">
-  <header class="bg-[#0055a5] text-white p-4 text-center shadow">
-    <h1 class="text-xl font-semibold">Inward Stock Entry</h1>
-  </header>
+<body>
+  <div class="container">
+    <img src="OLC.png" alt="ISTOS Medical Logo" class="logo">
+
+<!-- Title and Date with Line Gap -->
+<!-- Date Block with No Wrapping -->
+<div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+  <div style="font-size: 14px; color: #333; white-space: nowrap;">
+    🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+  </div>
+</div>
 
   <main class="max-w-md mx-auto mt-8 p-4 bg-white rounded-md shadow space-y-4">
     <form id="inwardForm">
