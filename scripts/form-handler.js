@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
+  const form = document.querySelector("form[data-type]");
   const responseMsg = document.getElementById("responseMsg");
 
   // Detect form type from data attribute (e.g., data-type="inward" or "outward")
