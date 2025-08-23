@@ -43,17 +43,14 @@
       transition: transform 0.3s ease;
     }
 
-    .outward-title {
-      text-align: center;
-      margin-top: 10px; /* one-line gap */
-      font-size: 26px;
-      font-weight: 700;
-      color: #2c3e50;
-      font-family: 'Segoe UI', sans-serif;
-    }
-        
     .logo:hover {
       transform: scale(1.05);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
     }
 
     label {
@@ -79,11 +76,7 @@
     }
 
     .half-width {
-      width: 23%;
-    }
-
-    .item-field {
-    width: 55%;
+      width: 50%;
     }
 
     button {
@@ -104,19 +97,16 @@
       transform: scale(1.03);
     }
 
-    #toast {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #2980b9;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      font-family: Arial, sans-serif;
-      z-index: 9999;
-      transition: opacity 0.3s ease;
+    .success {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      margin-top: 15px;
     }
 
     @media screen and (max-width: 600px) {
@@ -132,26 +122,16 @@
       button {
         width: 100%;
       }
-
-      #toast {
-        right: 10px;
-        bottom: 10px;
-        width: calc(100% - 20px);
-        text-align: center;
-      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="OLC.png" alt="ISTOS Medical Logo" class="logo" />
-     <h2 class="outward-title">🚚 Outward Updation</h2>
 
-    <!-- Title and Date with Line Gap -->
-    <!-- Date Block with No Wrapping -->
     <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
       <div style="font-size: 14px; color: #333; white-space: nowrap;">
-        🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+        🗓️ Date: <span id="currentDate">Loading...</span>
       </div>
     </div>
 
@@ -160,6 +140,7 @@
         <input type="date" name="date" class="half-width" required />
       </label>
 
+    <form id="outwardForm">
       <label>Item:
         <select name="item" required class="item-field">
           <option value="" disabled selected>Select item</option>
@@ -170,116 +151,76 @@
       </label>
 
       <label>Quantity:
-        <input type="number" name="quantity" required maxlength="3" min="1" style="width: 80px;" />
+        <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
       </label>
 
-      <label>Sender:
-        <input type="text" name="Sender" required />
+      <label>Source:
+        <input type="text" name="source" required />
       </label>
 
-  <!-- ✅ Toast Notification -->
-<div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#2980b9; color:white; padding:12px 20px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-family:Arial, sans-serif; z-index:9999; transition:opacity 0.3s ease;">
-  <span id="toastMessage">✅ Submitted successfully</span>
-</div>
+      <div style="text-align: center;">
+        <button type="submit" id="submitBtn">
+          <span id="btnText">Submit</span>
+          <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
+        </button>
+      </div>
+    </form>
 
-<!-- ✅ Submit Button -->
-<div style="text-align: center; margin-top: 20px;">
-  <button type="submit" id="submitBtn">
-    <span id="btnText">Submit</span>
-    <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
-  </button>
-</div>
+    <div id="message"></div>
+  </div>
 
-<!-- ✅ Script Block -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("outwardForm");
-  const submitBtn = document.getElementById("submitBtn");
-  const btnText = document.getElementById("btnText");
-  const spinner = document.getElementById("spinner");
-  const toast = document.getElementById("toast");
-  const toastMessage = document.getElementById("toastMessage");
+  <script>
+    const form = document.getElementById("outwardForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+    const spinner = document.getElementById("spinner");
+    const messageBox = document.getElementById("message");
 
-  form.addEventListener("submit", async function (event) {
-    event.preventDefault();
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-    const item = form.elements["item"].value;
-    const quantity = parseInt(form.elements["quantity"].value, 10);
-    const date = form.elements["date"].value;
-    const destination = form.elements["Sender"].value;
-
-    if (isNaN(quantity) || quantity <= 0) {
-      showToast("❌ Quantity must be a positive number", "#c0392b");
-      return;
-    }
-
-    // ✅ Replace with your actual balance-check URL
-    const balanceURL = `https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec?item=${encodeURIComponent(item)}`;
-    try {
-      const balanceResponse = await fetch(balanceURL);
-      const balanceData = await balanceResponse.json();
-      const currentBalance = balanceData.balance;
-
-      if (quantity > currentBalance) {
-        showToast(`❌ Only ${currentBalance} units available`, "#e74c3c");
-        return;
-      }
-
-      // Proceed with submission
       submitBtn.disabled = true;
       btnText.textContent = "Submitting...";
       spinner.style.display = "inline";
 
-      const payload = new URLSearchParams({
-        formType: "outward",
-        item,
-        quantity,
-        date,
-        destination
-      });
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      for (const pair of formData.entries()) {
+        params.append(pair[0], pair[1]);
+      }
 
-      const scriptURL = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
-
-      const res = await fetch(scriptURL, {
+      fetch(form.action, {
         method: "POST",
-        body: payload
-      });
+        body: params
+      })
+        .then(response => response.text())
+        .then(data => {
+          messageBox.innerHTML = `<div class="success">✅ Submitted successfully</div>`;
+          resetFormAfterDelay(3000);
+        })
+        .catch(error => {
+          messageBox.innerHTML = `<div class="error">❌ Submission failed: ${error}</div>`;
+          submitBtn.disabled = false;
+          btnText.textContent = "Submit";
+          spinner.style.display = "none";
+        });
+    });
 
-      const text = await res.text();
-      showToast(text.includes("✅") ? text : "✅ Outward entry submitted!", "#27ae60");
-      setTimeout(() => form.reset(), 3000);
-    } catch (error) {
-      showToast("❌ Submission failed", "#c0392b");
-      console.error(error);
-    } finally {
-      submitBtn.disabled = false;
-      btnText.textContent = "Submit";
-      spinner.style.display = "none";
-    }
-  });
-
-  function showToast(message, bgColor) {
-    toastMessage.textContent = message;
-    toast.style.backgroundColor = bgColor;
-    toast.style.display = "block";
-    toast.style.opacity = "1";
-    setTimeout(() => {
-      toast.style.opacity = "0";
+    function resetFormAfterDelay(delay) {
       setTimeout(() => {
-        toast.style.display = "none";
-      }, 300);
-    }, 3000);
-  }
-});
-</script>
+        form.reset();
+        messageBox.textContent = "";
+        submitBtn.disabled = false;
+        btnText.textContent = "Submit";
+        spinner.style.display = "none";
+      }, delay);
+    }
 
-<script>
     // Set current date
     const today = new Date();
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     const formattedDate = today.toLocaleDateString('en-GB', options);
     document.getElementById("currentDate").textContent = formattedDate;
-</script>
-      
+  </script>
 </body>
 </html>
