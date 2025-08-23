@@ -68,11 +68,11 @@
     }
 
     .half-width {
-      width: 25%;
+      width: 23%;
     }
 
     .item-field {
-    width: 45%;
+    width: 55%;
     }
 
     button {
@@ -151,7 +151,7 @@
       </label>
 
       <label>Quantity:
-        <input type="number" name="quantity" required maxlength="3" style="width: 80px;" />
+        <input type="number" name="quantity" required maxlength="3" min="1" style="width: 80px;" />
       </label>
 
       <label>Source:
@@ -180,7 +180,16 @@
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-
+      
+      const quantity = parseInt(form.elements["quantity"].value, 10);
+      if (isNaN(quantity) || quantity <= 0) {
+        showToast("❌ Quantity must be a positive number", "#c0392b");
+        submitBtn.disabled = false;
+        btnText.textContent = "Submit";
+        spinner.style.display = "none";
+        return;
+      }
+      
       submitBtn.disabled = true;
       btnText.textContent = "Submitting...";
       spinner.style.display = "inline";
