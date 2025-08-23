@@ -242,5 +242,23 @@
     const formattedDate = today.toLocaleDateString('en-GB', options);
     document.getElementById("currentDate").textContent = formattedDate;
   </script>
+
+    // Form gets reloaded after showing balance
+  
+<script>
+  function showToastAndReload(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+      window.location.reload(); // Reloads the form after 2 seconds
+    }, 2000);
+  }
+
+  // Example usage after successful submission
+  showToastAndReload("🚚 Shipment recorded successfully");
+</script>
+
 </body>
 </html>
