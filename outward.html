@@ -17,6 +17,22 @@
   <link rel="apple-touch-icon" href="icons/icon-192.jpg" />
 
   <style>
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4caf50;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 9999;
+  }
+</style>
+
+  <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -155,6 +171,8 @@
         </div>
       </div>
 
+    <div id="toast" style="display: none;"></div>
+
       <form id="outwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
         <input type="hidden" name="formType" value="outward" />
          <h3 style="text-align: center; margin-top: 1; margin-bottom: 20px; color: #3b5998;">🚚 Outward updation</h3>
@@ -269,9 +287,16 @@
   }
 
   function showToast(message) {
-    toast.textContent = message;
-    toast.style.display = "block";
-    setTimeout(() => window.location.reload(), 2000);
+  const toast = document.getElementById("toast");
+  if (!toast) {
+    console.warn("Toast element not found.");
+    return;
+  }
+
+  toast.textContent = message;
+  toast.style.display = "block";
+
+  setTimeout(() => window.location.reload(), 2000);
   }
 
   function showError(msg) {
@@ -286,6 +311,6 @@
     day: "2-digit", month: "short", year: "numeric"
   });
 </script>
-    
+
 </body>
 </html>
