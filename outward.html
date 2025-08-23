@@ -170,6 +170,10 @@
         </select>
       </label>
 
+      <label>Balance Stock:
+        <input type="text" id="balanceStock" readonly style="width: 75%; background-color: #f0f0f0;" />
+      </label>
+        
       <label>Quantity:
         <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
       </label>
@@ -188,6 +192,24 @@
 
     <div id="message"></div>
   </div>
+
+  // Add a Read-Only Balance Field
+  
+  <script>
+  document.querySelector("select[name='item']").addEventListener("change", function () {
+    const selectedItem = this.value;
+  
+    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?formType=balanceCheck&item=" + encodeURIComponent(selectedItem))
+      .then(response => response.text())
+      .then(balance => {
+        document.getElementById("balanceStock").value = balance;
+      })
+      .catch(error => {
+        document.getElementById("balanceStock").value = "⚠️ Error fetching stock";
+        console.error("Balance fetch error:", error);
+      });
+  });
+  </script>
 
   <script>
     const form = document.getElementById("outwardForm");
@@ -244,13 +266,6 @@
       }, delay);
     }
 
-    // Set current date
-    const today = new Date();
-    const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    const formattedDate = today.toLocaleDateString('en-GB', options);
-    document.getElementById("currentDate").textContent = formattedDate;
-  </script>
-  
   <script>
     function showToastAndReload(message) {
       const toast = document.getElementById("toast");
@@ -266,5 +281,14 @@
     showToastAndReload("🚚 Shipment recorded successfully");
   </script>
 
+    // Set current date
+  
+  </script>
+    const today = new Date();
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    const formattedDate = today.toLocaleDateString('en-GB', options);
+    document.getElementById("currentDate").textContent = formattedDate;
+  </script>
+    
 </body>
 </html>
