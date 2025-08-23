@@ -147,7 +147,12 @@
       </label>
 
       <label>Item:
-        <input type="text" name="item" required class="item-field" />
+        <select name="item" required class="item-field">
+          <option value="" disabled selected>Select item</option>
+          <option value="Blades">Blades</option>
+          <option value="Microtome Blades">Microtome Blades</option>
+          <option value="Bonesaw Blades">Bonesaw Blades</option>
+        </select>
       </label>
 
       <label>Quantity:
