@@ -1,237 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iStock</title>
 
-  <!-- android App Settings -->
-  <link rel="manifest" href="manifest.json">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Android App Settings -->
+  <link rel="manifest" href="manifest.json" />
 
   <!-- iOS App Settings -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="ISTOS Leads">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="ISTOS Leads" />
+  <link rel="apple-touch-icon" href="icons/icon-192.jpg" />
 
-<!-- iOS Splash Screen Icon -->
-  <link rel="apple-touch-icon" href="icons/icon-192.jpg">
-  
-<style>
-  input, textarea, select {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-</style>
-
-  <style>    
-  .container {
-    max-width: 600px;
-    margin: 20px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-
-  .logo {
-    display: block;
-    margin: 0 auto 30px;
-    max-width: 180px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease;
-  }
-
-  .logo:hover {
-    transform: scale(1.05);
-  }
-
-  h2 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-
-  label {
-    display: block;
-    margin-top: 15px;
-    font-weight: 600;
-    color: #34495e;
-  }
-
-  input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-  }
-
-  button {
-    margin-top: 20px;
-    width: 200px;
-    padding: 10px;
-    background-color: #2980b9;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-
-  button:hover {
-    background-color: #1c5980;
-    transform: scale(1.03);
-  }
-
-  .success {
-    text-align: center;
-    color: green;
-    margin-top: 15px;
-  }
-
-  .error {
-    text-align: center;
-    color: red;
-    margin-top: 15px;
-  }
-
-  @media screen and (max-width: 600px) {
-    .container {
-      margin: 10px;
-      padding: 20px;
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
     }
 
-    input, select, textarea {
-      font-size: 16px;
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 30px;
+      max-width: 180px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .half-width {
+      width: 40%;
     }
 
     button {
-      width: 100%;
+      margin-top: 20px;
+      width: 200px;
+      padding: 10px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
-  }
-</style>
 
+    button:hover {
+      background-color: #1c5980;
+      transform: scale(1.03);
+    }
+
+    .success {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      margin-top: 15px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 20px;
+      }
+
+      input, select, textarea {
+        font-size: 16px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-  
 <body>
   <div class="container">
-    <img src="OLC.png" alt="ISTOS Medical Logo" class="logo">
+    <img src="OLC.png" alt="ISTOS Medical Logo" class="logo" />
 
-<!-- Title and Date with Line Gap -->
-<!-- Date Block with No Wrapping -->
-<div style="display: flex; justify-content: flex-end; margin-top: 4px;">
-  <div style="font-size: 14px; color: #333; white-space: nowrap;">
-    🗓️ Date: <span id="currentDate">16 Aug 2025</span>
-  </div>
-</div>
-    
-<body>
-  <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec" target="hiddenFrame">
-<style>
-  .half-width {
-    width: 22%;
-    box-sizing: border-box;
-  }
-</style>
+    <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+      <div style="font-size: 14px; color: #333; white-space: nowrap;">
+        🗓️ Date: <span id="currentDate">Loading...</span>
+      </div>
+    </div>
 
-<form id="inwardForm">
-    
-  <label>Date:
-    <input type="date" id="date" name="date" class="half-width" />
-    <div style="margin-bottom: 20px;"></div> <!-- 1 line gap -->
-    </label> 
-    
-  <label>Item:
-    <input type="text" name="item" required />
-    </label>
-    
-  <label>Quantity:
-    <input type="number" name="quantity" required maxlength="3" style="width: 80px;" />
-    </label>
-    
-  <label>Source:
-    <input type="text" name="source" required />
-    </label>
-    
-  </form>
+    <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
+      <label>Date:
+        <input type="date" name="date" class="half-width" required />
+      </label>
 
-      <!-- ✅ Centered Submit Button -->
-      <div style="text-align: center; margin-top: 20px;">
-      <button type="submit" id="submitBtn">
+      <label>Item:
+        <input type="text" name="item" required />
+      </label>
+
+      <label>Quantity:
+        <input type="number" name="quantity" required maxlength="3" style="width: 80px;" />
+      </label>
+
+      <label>Source:
+        <input type="text" name="source" required />
+      </label>
+
+      <div style="text-align: center;">
+        <button type="submit" id="submitBtn">
           <span id="btnText">Submit</span>
           <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
-      </button>
-
+        </button>
       </div>
     </form>
 
     <div id="message"></div>
   </div>
 
-<script>
-  document.getElementById("inwardForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-
+  <script>
+    const form = document.getElementById("inwardForm");
     const submitBtn = document.getElementById("submitBtn");
     const btnText = document.getElementById("btnText");
     const spinner = document.getElementById("spinner");
+    const messageBox = document.getElementById("message");
 
-    submitBtn.disabled = true;
-    btnText.textContent = "Submitting...";
-    spinner.style.display = "inline";
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-    const formData = new FormData(this);
-    const params = new URLSearchParams();
-    for (const pair of formData.entries()) {
-      params.append(pair[0], pair[1]);
+      submitBtn.disabled = true;
+      btnText.textContent = "Submitting...";
+      spinner.style.display = "inline";
+
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      for (const pair of formData.entries()) {
+        params.append(pair[0], pair[1]);
+      }
+
+      fetch(form.action, {
+        method: "POST",
+        body: params
+      })
+        .then(response => response.text())
+        .then(data => {
+          messageBox.innerHTML = `<div class="success">✅ Submitted successfully</div>`;
+          resetFormAfterDelay(3000);
+        })
+        .catch(error => {
+          messageBox.innerHTML = `<div class="error">❌ Submission failed: ${error}</div>`;
+          submitBtn.disabled = false;
+          btnText.textContent = "Submit";
+          spinner.style.display = "none";
+        });
+    });
+
+    function resetFormAfterDelay(delay) {
+      setTimeout(() => {
+        form.reset();
+        messageBox.textContent = "";
+        submitBtn.disabled = false;
+        btnText.textContent = "Submit";
+        spinner.style.display = "none";
+      }, delay);
     }
 
-    fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
-      method: "POST",
-      body: params
-    })
-    .then(response => response.text())
-    .then(data => {
-      alert("✅ Lead submitted successfully!");
-      window.location.reload();
-      document.getElementById("message").innerHTML = `<div class="success">${data}</div>`;
-      this.reset();
-      submitBtn.disabled = false;
-      btnText.textContent = "Submit Lead";
-      spinner.style.display = "none";
-    })
-    .catch(error => {
-      document.getElementById("message").innerHTML = `<div class="error">❌ Submission failed: ${error}</div>`;
-      submitBtn.disabled = false;
-      btnText.textContent = "Submit Lead";
-      spinner.style.display = "none";
-    });
-  });
-</script>
-
-         <!-- ✅ Script for the timestamp -->
-    
-<script>
-  const today = new Date();
-  const options = { day: '2-digit', month: 'short', year: 'numeric' };
-  const formattedDate = today.toLocaleDateString('en-GB', options);
-  document.getElementById("currentDate").textContent = formattedDate;
-</script>
-  
+    // Set current date
+    const today = new Date();
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    const formattedDate = today.toLocaleDateString('en-GB', options);
+    document.getElementById("currentDate").textContent = formattedDate;
+  </script>
 </body>
 </html>
