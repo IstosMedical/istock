@@ -271,7 +271,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
   }
 });
-
 </script>
+
+<script>
+    // Set current date
+    const today = new Date();
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    const formattedDate = today.toLocaleDateString('en-GB', options);
+    document.getElementById("currentDate").textContent = formattedDate;
+</script>
+      
 </body>
 </html>
