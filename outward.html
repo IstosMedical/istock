@@ -278,65 +278,75 @@ function resetFormAfterDelay(delay) {
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form"); // Assumes single form on page
+    const form = document.getElementById("outwardForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+    const spinner = document.getElementById("spinner");
+    const toast = document.getElementById("toast");
+    const toastMessage = document.getElementById("toastMessage");
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      
+      const quantity = parseInt(form.elements["quantity"].value, 10);
+      if (isNaN(quantity) || quantity <= 0) {
+        showToast("❌ Quantity must be a positive number", "#c0392b");
+        submitBtn.disabled = false;
+        btnText.textContent = "Submit";
+        spinner.style.display = "none";
+        return;
+      }
+      
+      submitBtn.disabled = true;
+      btnText.textContent = "Submitting...";
+      spinner.style.display = "inline";
 
-    const date = document.getElementById("date").value;
-    const item = document.getElementById("item").value;
-    const quantity = document.getElementById("quantity").value;
-    const destination = document.getElementById("receiver").value;
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      for (const pair of formData.entries()) {
+        params.append(pair[0], pair[1]);
+      }
 
-    const payload = new URLSearchParams({
-      formType: "outward",
-      date,
-      item,
-      quantity,
-      destination
-    });
-
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
-
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
-
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const date = document.getElementById("date").value;
-    const item = document.getElementById("item").value;
-    const quantity = document.getElementById("quantity").value;
-    const destination = document.getElementById("receiver").value;
-
-    const payload = new URLSearchParams({
-      formType: "outward",
-      date,
-      item,
-      quantity,
-      destination
-    });
-
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec"; // Replace with your actual Web App URL
-
-    try {
-      const res = await fetch(scriptURL, {
+      fetch(form.action, {
         method: "POST",
-        body: payload
-      });
-      const text = await res.text();
-      alert(text); // Shows success or error message
-      form.reset();
-    } catch (err) {
-      alert("❌ Submission failed. Please try again.");
-      console.error(err);
-    }
-  });
-});
-</script>
+        body: params
+      })
+        .then(response => response.text())
+        .then(data => {
+          showToast("✅ Lead submitted!", "#27ae60");
+          resetFormAfterDelay(3000);
+        })
+        .catch(error => {
+          showToast("❌ Submission failed", "#c0392b");
+          submitBtn.disabled = false;
+          btnText.textContent = "Submit";
+          spinner.style.display = "none";
+        });
+    });
 
-  
+    function showToast(message, bgColor) {
+      toastMessage.textContent = message;
+      toast.style.backgroundColor = bgColor;
+      toast.style.display = "block";
+      toast.style.opacity = "1";
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 300);
+      }, 3000);
+    }
+
+    function resetFormAfterDelay(delay) {
+      setTimeout(() => {
+        form.reset();
+        submitBtn.disabled = false;
+        btnText.textContent = "Submit";
+        spinner.style.display = "none";
+      }, delay);
+    }
+
+</script>
 </body>
 </html>
