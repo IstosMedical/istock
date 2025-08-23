@@ -205,7 +205,7 @@
   document.querySelector("select[name='item']").addEventListener("change", function () {
     const selectedItem = this.value;
   
-    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?formType=balanceCheck&item=" + encodeURIComponent(selectedItem))
+    fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec?formType=balancecheck&item=" + encodeURIComponent(selectedItem))
       .then(response => response.text())
       .then(balance => {
         document.getElementById("balancecheck").value = balance;
@@ -289,7 +289,7 @@
 
     // Set current date
   
-  </script>
+  <script>
     const today = new Date();
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     const formattedDate = today.toLocaleDateString('en-GB', options);
