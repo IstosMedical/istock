@@ -8,12 +8,12 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "istos-logo.png",
+      "src": "mini.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "stock.png",
+      "src": "mini.png",
       "sizes": "192x192",
       "type": "image/png"
     },
