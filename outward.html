@@ -199,6 +199,21 @@
     <div id="message"></div>
   </div>
 
+  <script>
+  document.querySelector("select[name='item']").addEventListener("change", function () {
+    const selectedItem = this.value;
+  
+    fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec?formType=balancecheck&item=" + encodeURIComponent(selectedItem))
+      .then(response => response.text())
+      .then(balance => {
+        document.getElementById("balancecheck").value = balance;
+      })
+      .catch(error => {
+        document.getElementById("balancecheck").value = "⚠️ Error fetching stock";
+        console.error("Balance fetch error:", error);
+      });
+  });
+  </script>
    
   <script>
   document.querySelector("select[name='item']").addEventListener("change", function () {
