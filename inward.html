@@ -45,12 +45,6 @@
       transform: scale(1.05);
     }
 
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-      margin-bottom: 10px;
-    }
-
     label {
       display: block;
       margin-top: 15px;
@@ -74,7 +68,11 @@
     }
 
     .half-width {
-      width: 40%;
+      width: 20%;
+    }
+
+    .item-field {
+    width: 40%;
     }
 
     button {
@@ -95,16 +93,19 @@
       transform: scale(1.03);
     }
 
-    .success {
-      text-align: center;
-      color: green;
-      margin-top: 15px;
-    }
-
-    .error {
-      text-align: center;
-      color: red;
-      margin-top: 15px;
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2980b9;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
     }
 
     @media screen and (max-width: 600px) {
@@ -119,6 +120,13 @@
 
       button {
         width: 100%;
+      }
+
+      #toast {
+        right: 10px;
+        bottom: 10px;
+        width: calc(100% - 20px);
+        text-align: center;
       }
     }
   </style>
@@ -139,7 +147,7 @@
       </label>
 
       <label>Item:
-        <input type="text" name="item" required />
+        <input type="text" name="item" required class="item-field" />
       </label>
 
       <label>Quantity:
@@ -157,16 +165,18 @@
         </button>
       </div>
     </form>
-
-    <div id="message"></div>
   </div>
+
+  <!-- Toast Notification -->
+  <div id="toast"><span id="toastMessage">✅ Submitted successfully</span></div>
 
   <script>
     const form = document.getElementById("inwardForm");
     const submitBtn = document.getElementById("submitBtn");
     const btnText = document.getElementById("btnText");
     const spinner = document.getElementById("spinner");
-    const messageBox = document.getElementById("message");
+    const toast = document.getElementById("toast");
+    const toastMessage = document.getElementById("toastMessage");
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
@@ -187,21 +197,34 @@
       })
         .then(response => response.text())
         .then(data => {
-          messageBox.innerHTML = `<div class="success">✅ Submitted successfully</div>`;
+          showToast("✅ Lead submitted!", "#27ae60");
           resetFormAfterDelay(3000);
         })
         .catch(error => {
-          messageBox.innerHTML = `<div class="error">❌ Submission failed: ${error}</div>`;
+          showToast("❌ Submission failed", "#c0392b");
           submitBtn.disabled = false;
           btnText.textContent = "Submit";
           spinner.style.display = "none";
         });
     });
 
+    function showToast(message, bgColor) {
+      toastMessage.textContent = message;
+      toast.style.backgroundColor = bgColor;
+      toast.style.display = "block";
+      toast.style.opacity = "1";
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 300);
+      }, 3000);
+    }
+
     function resetFormAfterDelay(delay) {
       setTimeout(() => {
         form.reset();
-        messageBox.textContent = "";
         submitBtn.disabled = false;
         btnText.textContent = "Submit";
         spinner.style.display = "none";
