@@ -207,7 +207,7 @@
   itemSelect.addEventListener("change", () => {
     const selectedItem = itemSelect.value;
     const url = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
-    const params = new URLSearchParams({ formType: "balanceCheck", item: selectedItem });
+    const params = new URLSearchParams({ formType: "balancecheck", item: selectedItem });
 
     balanceField.value = "⏳ Checking...";
     fetch(`${url}?${params}`)
