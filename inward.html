@@ -16,7 +16,7 @@
 
 <!-- iOS Splash Screen Icon -->
   <link rel="apple-touch-icon" href="icons/icon-192.jpg">
-
+  
 <style>
   input, textarea, select {
     font-family: Arial, sans-serif;
@@ -135,7 +135,7 @@
   <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec" target="hiddenFrame">
 <style>
   .half-width {
-    width: 25%;
+    width: 22%;
     box-sizing: border-box;
   }
 </style>
@@ -164,6 +164,19 @@
     </button>
   </form>
 
+          <!-- ✅ Centered Submit Button -->
+      <div style="text-align: center; margin-top: 20px;">
+      <button type="submit" id="submitBtn">
+          <span id="btnText">Submit</span>
+          <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
+      </button>
+
+      </div>
+    </form>
+
+    <div id="message"></div>
+  </div>
+  
 <script>
   const form = document.getElementById("inwardForm");
   const messageBox = document.getElementById("message");
@@ -190,5 +203,17 @@
     }, delay);
   }
 </script>
+
+         <!-- ✅ Script for the timestamp -->
+    
+<script>
+  const today = new Date();
+  const options = { day: '2-digit', month: 'short', year: 'numeric' };
+  const formattedDate = today.toLocaleDateString('en-GB', options);
+  document.getElementById("currentDate").textContent = formattedDate;
+</script>
+
+
+  
 </body>
 </html>
