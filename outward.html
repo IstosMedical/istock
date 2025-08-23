@@ -191,14 +191,22 @@
       }
 
       fetch(form.action, {
-        method: "POST",
-        body: params
+        method: 'POST',
+        body: formData
       })
-        .then(response => response.text())
-        .then(data => {
-          messageBox.innerHTML = `<div class="success">✅ Submitted successfully</div>`;
+      .then(response => response.text())
+      .then(data => {
+        if (data.includes("✅")) {
+          messageBox.innerHTML = `<div class="success">${data}</div>`;
           resetFormAfterDelay(3000);
-        })
+        } else {
+          messageBox.innerHTML = `<div class="error">${data}</div>`;
+        }
+      })
+      .catch(error => {
+        messageBox.innerHTML = `<div class="error">❌ Network error: ${error.message}</div>`;
+      });
+
         .catch(error => {
           messageBox.innerHTML = `<div class="error">❌ Submission failed: ${error}</div>`;
           submitBtn.disabled = false;
