@@ -164,7 +164,7 @@
     </button>
   </form>
 
-          <!-- ✅ Centered Submit Button -->
+      <!-- ✅ Centered Submit Button -->
       <div style="text-align: center; margin-top: 20px;">
       <button type="submit" id="submitBtn">
           <span id="btnText">Submit</span>
@@ -176,32 +176,46 @@
 
     <div id="message"></div>
   </div>
-  
+
 <script>
-  const form = document.getElementById("inwardForm");
-  const messageBox = document.getElementById("message");
+  document.getElementById("inwardForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-  // Clear message on page load
-  window.addEventListener("load", () => {
-    messageBox.textContent = "";
+    const submitBtn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+    const spinner = document.getElementById("spinner");
+
+    submitBtn.disabled = true;
+    btnText.textContent = "Submitting...";
+    spinner.style.display = "inline";
+
+    const formData = new FormData(this);
+    const params = new URLSearchParams();
+    for (const pair of formData.entries()) {
+      params.append(pair[0], pair[1]);
+    }
+
+    fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
+      method: "POST",
+      body: params
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert("✅ Lead submitted successfully!");
+      window.location.reload();
+      document.getElementById("message").innerHTML = `<div class="success">${data}</div>`;
+      this.reset();
+      submitBtn.disabled = false;
+      btnText.textContent = "Submit Lead";
+      spinner.style.display = "none";
+    })
+    .catch(error => {
+      document.getElementById("message").innerHTML = `<div class="error">❌ Submission failed: ${error}</div>`;
+      submitBtn.disabled = false;
+      btnText.textContent = "Submit Lead";
+      spinner.style.display = "none";
+    });
   });
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent page reload
-    showSuccessMessage("✅ Submitted successfully");
-    resetFormAfterDelay(3000);
-  });
-
-  function showSuccessMessage(message) {
-    messageBox.textContent = message;
-  }
-
-  function resetFormAfterDelay(delay) {
-    setTimeout(() => {
-      messageBox.textContent = "";
-      form.reset();
-    }, delay);
-  }
 </script>
 
          <!-- ✅ Script for the timestamp -->
@@ -212,8 +226,6 @@
   const formattedDate = today.toLocaleDateString('en-GB', options);
   document.getElementById("currentDate").textContent = formattedDate;
 </script>
-
-
   
 </body>
 </html>
