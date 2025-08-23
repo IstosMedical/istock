@@ -261,5 +261,75 @@
     const formattedDate = today.toLocaleDateString('en-GB', options);
     document.getElementById("currentDate").textContent = formattedDate;
   </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("inwardForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const btnText = document.getElementById("btnText");
+  const spinner = document.getElementById("spinner");
+  const toast = document.getElementById("toast");
+  const toastMessage = document.getElementById("toastMessage");
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const item = form.elements["item"].value;
+    const quantity = parseInt(form.elements["quantity"].value, 10);
+    const date = form.elements["date"].value;
+    const receiver = form.elements["Receiver"].value;
+
+    if (isNaN(quantity) || quantity <= 0) {
+      showToast("❌ Quantity must be a positive number", "#c0392b");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    btnText.textContent = "Submitting...";
+    spinner.style.display = "inline";
+
+    const payload = new URLSearchParams({
+      formType: "inward",
+      item,
+      quantity,
+      date,
+      receiver
+    });
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
+
+    try {
+      const res = await fetch(scriptURL, {
+        method: "POST",
+        body: payload
+      });
+      const text = await res.text();
+      showToast(text.includes("✅") ? text : "✅ Inward entry submitted!", "#27ae60");
+      setTimeout(() => form.reset(), 3000);
+    } catch (error) {
+      showToast("❌ Submission failed", "#c0392b");
+      console.error(error);
+    } finally {
+      submitBtn.disabled = false;
+      btnText.textContent = "Submit";
+      spinner.style.display = "none";
+    }
+  });
+
+  function showToast(message, bgColor) {
+    toastMessage.textContent = message;
+    toast.style.backgroundColor = bgColor;
+    toast.style.display = "block";
+    toast.style.opacity = "1";
+    setTimeout(() => {
+      toast.style.opacity = "0";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 300);
+    }, 3000);
+  }
+});
+</script>
+
 </body>
 </html>
