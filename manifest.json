@@ -1,7 +1,7 @@
 {
-  "name": "istock",
-  "short_name": "istock",
-  "start_url": "/index.html",
+  "name": "ISTOCK | ISTOS Medical",
+  "short_name": "ISTOCK",
+  "start_url": "/istock/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0055a5",
@@ -24,4 +24,3 @@
     }
   ]
 }
-
