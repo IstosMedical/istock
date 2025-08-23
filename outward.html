@@ -204,16 +204,22 @@
   document.querySelector("select[name='item']").addEventListener("change", function () {
     const selectedItem = this.value;
   
-    fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec?formType=balancecheck&item=" + encodeURIComponent(selectedItem))
-      .then(response => response.text())
-      .then(balance => {
-        document.getElementById("balancecheck").value = balance;
-      })
-      .catch(error => {
-        document.getElementById("balancecheck").value = "⚠️ Error fetching stock";
-        console.error("Balance fetch error:", error);
-      });
-  });
+    fetch("https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec", {
+      method: "POST",
+      body: new URLSearchParams(formData),
+    })
+    .then(response => response.text())
+    .then(result => {
+      if (result.includes("✅")) {
+        alert("✅ Outward entry saved successfully!");
+        window.location.href = "outward.html"; // Reloads the form
+      } else {
+        alert("❌ Submission failed: " + result);
+      }
+    })
+    .catch(error => {
+      alert("⚠️ Network error: " + error.message);
+    });
   </script>
 
   <script>
