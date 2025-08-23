@@ -171,7 +171,7 @@
       </label>
 
       <label>Balance Stock:
-        <input type="text" id="balanceStock" readonly maxlength="4" style="width: 80px;" background-color: #f5f5f5;" />
+        <input type="text" id="balancecheck" readonly maxlength="4" style="width: 80px;" background-color: #f5f5f5;" />
       </label>
         
       <label>Quantity:
@@ -202,10 +202,10 @@
     fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?formType=balanceCheck&item=" + encodeURIComponent(selectedItem))
       .then(response => response.text())
       .then(balance => {
-        document.getElementById("balanceStock").value = balance;
+        document.getElementById("balancecheck").value = balance;
       })
       .catch(error => {
-        document.getElementById("balanceStock").value = "⚠️ Error fetching stock";
+        document.getElementById("balancecheck").value = "⚠️ Error fetching stock";
         console.error("Balance fetch error:", error);
       });
   });
