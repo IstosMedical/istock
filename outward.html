@@ -147,9 +147,11 @@
     <img src="OLC.png" alt="ISTOS Medical Logo" class="logo" />
      <h2 class="outward-title">📦 Outward Updation</h2>
 
+    <!-- Title and Date with Line Gap -->
+    <!-- Date Block with No Wrapping -->
     <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
       <div style="font-size: 14px; color: #333; white-space: nowrap;">
-        🗓️ Date: <span id="currentDate">Loading...</span>
+        🗓️ Date: <span id="currentDate">16 Aug 2025</span>
       </div>
     </div>
 
@@ -266,4 +268,75 @@ function resetFormAfterDelay(delay) {
 }
 </script>
 
+     <!-- ✅ Script for the timestamp -->
+  
+<script>
+  const today = new Date();
+  const options = { day: '2-digit', month: 'short', year: 'numeric' };
+  const formattedDate = today.toLocaleDateString('en-GB', options);
+  document.getElementById("currentDate").textContent = formattedDate;
+</script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form"); // Assumes single form on page
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const date = document.getElementById("date").value;
+    const item = document.getElementById("item").value;
+    const quantity = document.getElementById("quantity").value;
+    const destination = document.getElementById("receiver").value;
+
+    const payload = new URLSearchParams({
+      formType: "outward",
+      date,
+      item,
+      quantity,
+      destination
+    });
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const date = document.getElementById("date").value;
+    const item = document.getElementById("item").value;
+    const quantity = document.getElementById("quantity").value;
+    const destination = document.getElementById("receiver").value;
+
+    const payload = new URLSearchParams({
+      formType: "outward",
+      date,
+      item,
+      quantity,
+      destination
+    });
+
+    const scriptURL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec"; // Replace with your actual Web App URL
+
+    try {
+      const res = await fetch(scriptURL, {
+        method: "POST",
+        body: payload
+      });
+      const text = await res.text();
+      alert(text); // Shows success or error message
+      form.reset();
+    } catch (err) {
+      alert("❌ Submission failed. Please try again.");
+      console.error(err);
+    }
+  });
+});
+</script>
+
+  
+</body>
+</html>
