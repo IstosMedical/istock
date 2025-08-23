@@ -133,36 +133,36 @@
       </div>
     </div>
 
-    <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
-      <label>Date:
-        <input type="date" name="date" class="half-width" required />
-      </label>
+<form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
+  <label>Date:
+    <input type="date" name="date" class="half-width" required />
+  </label>
 
-    <form id="inwardForm">
-      <label>Item:
-        <select name="item" required class="item-field">
-          <option value="" disabled selected>Select item</option>
-          <option value="Blades">Blades</option>
-          <option value="Microtome Blades">Microtome Blades</option>
-          <option value="Bonesaw Blades">Bonesaw Blades</option>
-        </select>
-      </label>
+  <label>Item:
+    <select name="item" required>
+      <option value="" disabled selected>Select item</option>
+      <option value="Blades">Blades</option>
+      <option value="Microtome Blades">Microtome Blades</option>
+      <option value="Bonesaw Blades">Bonesaw Blades</option>
+    </select>
+  </label>
 
-      <label>Quantity:
-        <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
-      </label>
+  <label>Quantity:
+    <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
+  </label>
 
-      <label>Source:
-        <input type="text" name="source" required />
-      </label>
+  <label>Source:
+    <input type="text" name="source" required />
+  </label>
 
-      <div style="text-align: center;">
-        <button type="submit" id="submitBtn">
-          <span id="btnText">Submit</span>
-          <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
-        </button>
-      </div>
-    </form>
+  <div style="text-align: center;">
+    <button type="submit" id="submitBtn">
+      <span id="btnText">Submit</span>
+      <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
+    </button>
+  </div>
+</form>
+
 
     <div id="message"></div>
   </div>
