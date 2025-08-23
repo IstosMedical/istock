@@ -8,12 +8,17 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "assets/istos-logo-192.png",
+      "src": "istock/istos-logo-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "assets/istos-logo-512.png",
+      "src": "istock/stock.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "istock/stock.png",
       "sizes": "512x512",
       "type": "image/png"
     }
