@@ -143,19 +143,30 @@
     <input type="date" name="date" class="half-width" required />
   </label>
 
-  <label>Item:
-    <select name="item" required class="three-quarter-width">
-          <option value="" disabled selected>Select spares</option>
-          <option value="Blades">Blades</option>
-          <option value="Microtome Blades">Microtome Blades</option>
-          <option value="Bonesaw Blades">Bonesaw Blades</option>
-          <option value="" disabled selected>Select consumables</option>
-          <option value="Slides">slides</option>
-          <option value="Low profile blades">Low profile blades</option>
-          <option value="Paraffin wax">Paraffin wax</option>
+    <label>Store location:
+    <select name="Store" required class="three-quarter-width">
+          <option value="" disabled selected>Choose location</option>
+          <option value="IMPLG-Shelf">IMPLG-Shelf</option>
+          <option value="IMPL">IMPL</option>
+          <option value="Primary Godown">Primary Godown</option>
+          <option value="Secondary Godown">Secondary Godown</option>
+          <option value="Meeting Room">Meeting Room</option>
     </select>
   </label>
-
+  
+    <label>Type:
+    <select name="Type" required class="three-quarter-width">
+          <option value="" disabled selected>Choose the type</option>
+          <option value="Consumable">Consumable</option>
+          <option value="Instrument">Instrument</option>
+          <option value="Spares & Accessories">Spares & Accessories</option>
+    </select>
+  </label>
+  
+  <label>Category:
+    <input type="text" name="catogory" required />
+  </label>
+  
   <label>Quantity:
     <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
   </label>
@@ -171,7 +182,6 @@
     </button>
   </div>
 </form>
-
 
     <div id="message"></div>
   </div>
