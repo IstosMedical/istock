@@ -85,13 +85,16 @@
   // Fetch stock data from Apps Script endpoint
   async function fetchStockData() {
     try {
+      document.getElementById('stockGrid').innerHTML = '<p>⏳ Loading stock data...</p>';
       const res = await fetch(STOCK_ENDPOINT);
       const data = await res.json();
       renderCards(data);
       attachSearchListener();
+      showToast('✅ Stock updated');
     } catch (error) {
       console.error("Failed to fetch stock data:", error);
       document.getElementById('stockGrid').innerHTML = `<p>⚠️ Unable to load stock data.</p>`;
+      showToast('❌ Failed to fetch stock');
     }
   }
 
@@ -99,7 +102,6 @@
   function renderCards(items) {
     const grid = document.getElementById('stockGrid');
     grid.innerHTML = '';
-
     items.forEach(({ item, stock, lastUpdated }) => {
       const emoji = getStockEmoji(stock);
       const card = document.createElement('div');
@@ -134,9 +136,39 @@
     });
   }
 
+  // Toast feedback
+  function showToast(message) {
+    let toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  // Refresh button logic
+  document.getElementById('refreshBtn').addEventListener('click', () => {
+    fetchStockData();
+  });
+
   // Initialize dashboard
   fetchStockData();
 </script>
+
+<style>
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0.9;
+  }
+</style>
 
 </body>
 </html>
