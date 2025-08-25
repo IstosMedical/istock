@@ -167,20 +167,20 @@
     </select>
   </label>
   
-    <label>Category:
+    <label>🔤 Category:
     <input type="cat" name="cat" />
   </label>
   
     <label>
-  🔤 Item Name:
-  <input type="text" name="item" required placeholder="Enter item description" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
-  </label>
+   Item Name:
+    <input list="itemList" name="itemName" id="itemName" placeholder="Select or type item name" required>
+    <datalist id="itemList"></datalist>
   
     <label>Quantity:
     <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
   </label>
 
-    <label>Source received from:
+    <label>🔤 Source received from:
     <input type="text" name="source" />
   </label>
 
@@ -196,7 +196,7 @@
   </label>
 
   <label>
-  Remarks:
+  🔤 Remarks:
   <textarea name="remarks" rows="2" cols="50" placeholder="Add any relevant notes..." style="width: 100%; resize: vertical; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;"></textarea>
 </label>
 
@@ -264,5 +264,30 @@
     const formattedDate = today.toLocaleDateString('en-GB', options);
     document.getElementById("currentDate").textContent = formattedDate;
   </script>
+
+  // To load the item name
+  <script>
+async function loadItemNames() {
+  const csvUrl = 'https://docs.google.com/spreadsheets/d/e/https://docs.google.com/spreadsheets/d/e/2PACX-1vSJLYhunTSzJArhPNvd9A2wgWP5ZwRVoFRLr1zrxYRpX2lwn3FlZIOGBtbKw3je6kAafo2JQ8rPXlDs/pub?gid=1318227014&single=true&output=csv/pub?output=csv';
+  try {
+    const response = await fetch(csvUrl);
+    const text = await response.text();
+    const rows = text.split('\n');
+    const itemNames = rows.map(row => row.split(',')[0].trim()).filter(name => name);
+
+    const datalist = document.getElementById('itemList');
+    itemNames.forEach(name => {
+      const option = document.createElement('option');
+      option.value = name;
+      datalist.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Failed to load item names:', error);
+    alert('⚠️ Could not load item names. Please check your sheet link.');
+  }
+}
+window.onload = loadItemNames;
+</script>
+
 </body>
 </html>
