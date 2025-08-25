@@ -232,14 +232,7 @@
           <option value="" disabled selected>Loading items...</option>
         </select>
   
-        <label>🧮 Quantity:</label>
-        <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
-  
-        <label>🔤 Source received from:</label>
-        <input type="text" name="source" />
-        <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
-  
-        <label>📦 Packing:</label>
+       <label>📦 Packing:</label>
         <select name="packing" required class="half-width">
           <option value="" disabled selected>Pack Type</option>
           <option value="Bottle">Bottle</option>
@@ -248,6 +241,13 @@
           <option value="Pcs">Pcs</option>
           <option value="Set">Set</option>
         </select>
+        
+        <label>🧮 Quantity:</label>
+        <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
+  
+        <label>🔤 Source received from:</label>
+        <input type="text" name="source" />
+        <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
   
         <label>🔤 Remarks:</label>
         <textarea name="remarks" rows="2" placeholder="Add any relevant notes..."></textarea>
