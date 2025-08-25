@@ -18,6 +18,12 @@
       padding: 0;
     }
 
+     form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem; /* ⬅️ Increased spacing between fields */
+    }
+    
     .form-container {
       display: flex;
       justify-content: center;
@@ -32,7 +38,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Embossed effect */
       width: 100%;
-      max-width: 6000px;
+      max-width: 600px;
       box-sizing: border-box;
     }
 
@@ -173,6 +179,7 @@
         <label>🔤 Category:</label>
         <input type="text" name="cat" />
   
+       <label>Item Name:</label>
         <select name="itemName" id="itemName" required>
           <option value="" disabled selected>Loading items...</option>
         </select>
