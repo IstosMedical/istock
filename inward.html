@@ -49,18 +49,30 @@
       }
     }
 
-     .form-container {
-      width: 80%;
+    /* Container for the entire form */
+    .form-container {
       max-width: 480px;
+      width: 100%;
       margin: 0 auto;
       padding: 1rem;
       box-sizing: border-box;
     }
     
+    /* Form styling */
     form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+    }
+    
+    /* Input fields */
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
     }
 
     .logo {
@@ -88,21 +100,6 @@
       margin-top: 15px;
       font-weight: 600;
       color: #34495e;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
     }
 
     .half-width {
@@ -139,24 +136,14 @@
       margin-top: 15px;
     }
 
-    @media screen and (max-width: 600px) {
-      .container {
-        margin: 10px;
-        padding: 20px;
-      }
-
-      input, select, textarea {
-        font-size: 16px;
-      }
-
-      button {
+    button {
         width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="form-container">
     <img src="mini.png" class="top-logo" alt="ISTOS Medical Logo" />
 
 <!-- Title and Date with Line Gap -->
