@@ -25,7 +25,10 @@
     .biscuit-bg {
       background-color: #FFEBCD;
       border: 1px solid #ccc;
-      width: 80px;
+      width: 100%; /* 🔥 This makes it full width */
+      padding: 8px;
+      border-radius: 4px;
+      box-sizing: border-box;
     }
     
     .three-quarter-width {
@@ -177,8 +180,8 @@
     <input type="cat" name="cat" />
   </label>
   
-    <label for="itemName">Item Name</label>
-    <input list="itemList" name="itemName" id="itemName" class="biscuit-bg" placeholder="Select the item name" required>
+    <label for="item Name:">Item Name</label>
+    <input list="itemList" name="itemNames" id="itemNames" class="biscuit-bg" placeholder="Select the item name" required>
    <datalist id="itemList"></datalist>
   
     <label>Quantity:
