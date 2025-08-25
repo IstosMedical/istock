@@ -12,33 +12,40 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
-    }
-
-     form {
-      display: flex;
-      justify-content: center;
-      gap: 1.25rem; /* ⬅️ Increased spacing between fields */
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
     }
     
     .form-container {
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 2rem;
-      background-color: background: linear-gradient(to bottom right, #f4f4f4, #eaeaea);
+      padding: 1rem;
     }
     
     .form-card {
       background-color: #fff;
       padding: 1.5rem;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Embossed effect */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 650px;
+      max-width: 480px;
+      box-sizing: border-box;
+    }
+    
+    .form-card label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+    
+    .form-card input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       box-sizing: border-box;
     }
 
