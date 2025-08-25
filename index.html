@@ -52,45 +52,42 @@
       margin-bottom: 30px;
     }
 
-  .button-row {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 12px;
-  }
-  
-  .button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
+    .button-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      width: 80%;
+      max-width: 300px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button:hover {
+      background-color: #0056b3;
+    }
 
-.button:hover {
-  background-color: #0056b3;
-}
-
-.status-row {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-top: 8px;
-}
-
-.label {
-  display: block;
-  font-size: 1rem;
-  margin-top: 4px;
-  color: #333;
-}
-
-
-
-    button:hover {
-      background-color: #1c5980;
-      transform: scale(1.05);
+    .status-row {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 8px;
+    }
+    
+    .label {
+      display: block;
+      font-size: 1rem;
+      margin-top: 4px;
+      color: #333;
     }
 
     @media screen and (max-width: 600px) {
@@ -106,17 +103,10 @@
   </style>
 </head>
 <body>
-<div class="button-row">
+<div class="button-column">
   <a href="inward.html" class="button">📦 Inward Stock</a>
   <a href="outward.html" class="button">🚚 Outward Stock</a>
-  <a href="dashboard.html" class="button">📊 Dashboard</a>
-</div>
-
-<div class="status-row">
-  <span class="status">✅</span>
-  <span class="status">🟨</span>
-  <span class="status">🟥</span>
-  <span class="label">Stock availability</span>
+  <a href="dashboard.html" class="button">✅🟨🟥 Stock availability</a>
 </div>
 
 </body>
