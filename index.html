@@ -52,16 +52,41 @@
       margin-bottom: 30px;
     }
 
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+  .button-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.status-row {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 8px;
+}
+
+.label {
+  display: block;
+  font-size: 1rem;
+  margin-top: 4px;
+  color: #333;
+}
+
+
 
     button:hover {
       background-color: #1c5980;
@@ -81,12 +106,18 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="OLC.png" alt="ISTOS Medical Logo" class="logo">
-    <h3>Welcome to ISTOS MEDICAL</h3>
-    <button onclick="window.location.href='https://istosmedical.github.io/istock/inward.html'">📦 Inward Stock</button><BR><BR><BR>
-    <button onclick="window.location.href='https://istosmedical.github.io/istock/outward.html'">🚚 Outward Stock</button>
-    <button onclick="window.location.href='https://istosmedical.github.io/istock/dashboard.html'">✅ 🟨 🟥 Stock availability</button>
-  </div>
+<div class="button-row">
+  <a href="inward.html" class="button">📦 Inward Stock</a>
+  <a href="outward.html" class="button">🚚 Outward Stock</a>
+  <a href="dashboard.html" class="button">📊 Dashboard</a>
+</div>
+
+<div class="status-row">
+  <span class="status">✅</span>
+  <span class="status">🟨</span>
+  <span class="status">🟥</span>
+  <span class="label">Stock availability</span>
+</div>
+
 </body>
 </html>
