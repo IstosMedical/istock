@@ -160,9 +160,9 @@
         <label>🔤 Category:</label>
         <input type="text" name="cat" />
   
-        <label>Item Name:</label>
-        <input list="itemList" name="itemName" id="itemName" placeholder="Select or type item name" required>
-        <datalist id="itemList"></datalist>
+        <select name="itemName" id="itemName" required>
+          <option value="" disabled selected>Loading items...</option>
+        </select>
   
         <label>Quantity:</label>
         <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
@@ -248,26 +248,31 @@
   </script>
 
   <script>
-  async function loadItemNames() {
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJLYhunTSzJArhPNvd9A2wgWP5ZwRVoFRLr1zrxYRpX2lwn3FlZIOGBtbKw3je6kAafo2JQ8rPXlDs/pub?gid=1318227014&single=true&output=csv';
-    try {
-      const response = await fetch(csvUrl);
-      const text = await response.text();
-      const rows = text.split('\n');
-      const itemNames = rows.map(row => row.split(',')[0].trim()).filter(name => name);
+    async function loadItemNames() {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJLYhunTSzJArhPNvd9A2wgWP5ZwRVoFRLr1zrxYRpX2lwn3FlZIOGBtbKw3je6kAafo2JQ8rPXlDs/pub?gid=1318227014&single=true&output=csv';
+      try {
+        const response = await fetch(csvUrl);
+        const text = await response.text();
+        const rows = text.split('\n');
+        const itemNames = rows.map(row => row.split(',')[0].trim()).filter(name => name);
   
-      const datalist = document.getElementById('itemList');
-      itemNames.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        datalist.appendChild(option);
-      });
-    } catch (error) {
-      console.error('Failed to load item names:', error);
-      alert('⚠️ Could not load item names. Please check your sheet link.');
+        const select = document.getElementById('itemName');
+        select.innerHTML = '<option value="" disabled selected>Select item</option>';
+  
+        itemNames.forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Failed to load item names:', error);
+        const select = document.getElementById('itemName');
+        select.innerHTML = '<option value="" disabled selected>Items unavailable</option>';
+      }
     }
-  }
-  window.onload = loadItemNames;
+  
+    window.onload = loadItemNames;
   </script>
 
 </body>
