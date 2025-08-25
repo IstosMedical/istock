@@ -69,14 +69,23 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-     img.top-logo {
-      padding: 0;
-      margin: 0;
-      box-shadow: none;
-      border: none;
-      display: block;
-      width: 20%;
+    @keyframes logoReveal {
+      0% {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .top-logo {
+      width: 25%;
       height: auto;
+      display: block;
+      margin: 0 auto;
+      animation: logoReveal 0.8s ease-out forwards;
     }
 
     .logo {
