@@ -116,13 +116,20 @@
 
     input,
     select,
-    textarea + small {
+    textarea {
       display: block;
-      margin-top: 0;  /* No gap above field */
-      margin-bottom: 24px;   /* 1 line gap after field */
-      width: 100%;
+      margin-top: 0;
+      margin-bottom: 24px;
+      width: 100%;           /* Ensures full width */
       padding: 8px;
       font-size: 1rem;
+    }
+    
+     textarea + small {
+      display: block;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      color: grey;
     }
 
     .half-width {
