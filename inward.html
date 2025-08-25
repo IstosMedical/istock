@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iStock</title>
 
   <!-- Android App Settings -->
@@ -36,7 +36,7 @@
     }
 
     .top-logo {
-      width: 80px;
+      width: 60px;
       height: auto;
       display: block;
       margin: 0 auto;
@@ -136,6 +136,21 @@
       margin-top: 15px;
     }
 
+        form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
     button {
         width: 100%;
       }
@@ -153,7 +168,7 @@
     🗓️ Date: <span id="currentDate">16 Aug 2025</span>
   </div>
 </div>
-
+<form>
 <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
   <input type="hidden" name="formType" value="inward" />
   <h3 style="text-align: center; margin-top: 1; margin-bottom: 20px; color: #3b5998;">📦 Inward updation</h3>
