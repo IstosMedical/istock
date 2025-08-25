@@ -63,7 +63,7 @@
 
   <script>
     async function fetchStockData() {
-      const res = await fetch('YOUR_SCRIPT_URL');
+      const res = await fetch('https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec');
       const data = await res.json();
       renderCards(data);
     }
