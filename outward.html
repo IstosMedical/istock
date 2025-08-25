@@ -206,18 +206,10 @@
         <input type="date" name="date" class="half-width" required />
       </label>
 
-      <label>Item:
-        <select name="item" required class="three-quarter-width">
-          <option value="" disabled selected>Select spares</option>
-          <option value="Blades">Blades</option>
-          <option value="Microtome Blades">Microtome Blades</option>
-          <option value="Bonesaw Blades">Bonesaw Blades</option>
-          <option value="" disabled selected>Select consumables</option>
-          <option value="Slides">slides</option>
-          <option value="Low profile blades">Low profile blades</option>
-          <option value="Paraffin wax">Paraffin wax</option>
+       <label>Item Name:</label>
+        <select name="itemName" id="itemName" required>
+          <option value="" disabled selected>Loading items...</option>
         </select>
-      </label>
 
       <label>Balance Stock:
         <input type="text" id="balancecheck" readonly class="biscuit-bg" maxlength="4" />
@@ -337,5 +329,33 @@
   });
 </script>
 
+  <script>
+    async function loadItemNames() {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJLYhunTSzJArhPNvd9A2wgWP5ZwRVoFRLr1zrxYRpX2lwn3FlZIOGBtbKw3je6kAafo2JQ8rPXlDs/pub?gid=1318227014&single=true&output=csv';
+      try {
+        const response = await fetch(csvUrl);
+        const text = await response.text();
+        const rows = text.split('\n');
+        const itemNames = rows.map(row => row.split(',')[0].trim()).filter(name => name);
+  
+        const select = document.getElementById('itemName');
+        select.innerHTML = '<option value="" disabled selected>Select item</option>';
+  
+        itemNames.forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Failed to load item names:', error);
+        const select = document.getElementById('itemName');
+        select.innerHTML = '<option value="" disabled selected>Items unavailable</option>';
+      }
+    }
+  
+    window.onload = loadItemNames;
+  </script>
+  
 </body>
 </html>
