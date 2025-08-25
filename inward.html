@@ -22,6 +22,12 @@
       padding: 0;
     }
 
+    .biscuit-bg {
+      background-color: #FFEBCD;
+      border: 1px solid #ccc;
+      width: 80px;
+    }
+    
     .three-quarter-width {
       width: 75%;
     }
@@ -171,10 +177,9 @@
     <input type="cat" name="cat" />
   </label>
   
-    <label>
-   Item Name:
-    <input list="itemList" name="itemName" id="itemName" placeholder="Select or type item name" required>
-    <datalist id="itemList"></datalist>
+    <label for="itemName">Item Name</label>
+    <input list="itemList" name="itemName" id="itemName" class="biscuit-bg" placeholder="Select the item name" required>
+   <datalist id="itemList"></datalist>
   
     <label>Quantity:
     <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
