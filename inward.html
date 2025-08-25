@@ -19,9 +19,21 @@
     }
 
     .form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background-color: background: linear-gradient(to bottom right, #f4f4f4, #eaeaea);
+    }
+    
+    .form-card {
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Embossed effect */
+      width: 100%;
       max-width: 480px;
-      margin: 0 auto;
-      padding: 1rem;
+      box-sizing: border-box;
     }
 
     .top-logo {
@@ -113,71 +125,73 @@
 </head>
 <body>
   <div class="form-container">
-    <img src="mini.png" class="top-logo" alt="ISTOS Medical Logo" />
-
-    <div style="text-align: right; font-size: 14px; color: #333;">
-      🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+     <div class="form-card">
+      <img src="mini.png" class="top-logo" alt="ISTOS Medical Logo" />
+  
+      <div style="text-align: right; font-size: 14px; color: #333;">
+        🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+      </div>
+  
+      <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
+        <input type="hidden" name="formType" value="inward" />
+        <h3>📦 Inward updation</h3>
+  
+        <label>Date:</label>
+        <input type="date" name="date" class="half-width" required />
+  
+        <label>Store:</label>
+        <select name="store" required class="three-quarter-width">
+          <option value="" disabled selected>Choose location</option>
+          <option value="IMPLG-Shelf">IMPLG-Shelf</option>
+          <option value="IMPL">IMPL</option>
+          <option value="Primary Godown">Primary Godown</option>
+          <option value="Secondary Godown">Secondary Godown</option>
+          <option value="Meeting Room">Meeting Room</option>
+        </select>
+  
+        <label>Type:</label>
+        <select name="type" required class="three-quarter-width">
+          <option value="" disabled selected>Choose the type</option>
+          <option value="Consumable">Consumable</option>
+          <option value="Instrument">Instrument</option>
+          <option value="Spares & Accessories">Spares & Accessories</option>
+        </select>
+  
+        <label>🔤 Category:</label>
+        <input type="text" name="cat" />
+  
+        <label>Item Name:</label>
+        <input list="itemList" name="itemName" id="itemName" placeholder="Select or type item name" required>
+        <datalist id="itemList"></datalist>
+  
+        <label>Quantity:</label>
+        <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
+  
+        <label>🔤 Source received from:</label>
+        <input type="text" name="source" />
+  
+        <label>Packing:</label>
+        <select name="packing" required class="half-width">
+          <option value="" disabled selected>Pack Type</option>
+          <option value="Bottle">Bottle</option>
+          <option value="Box">Box</option>
+          <option value="Nos">Nos</option>
+          <option value="Pcs">Pcs</option>
+          <option value="Set">Set</option>
+        </select>
+  
+        <label>🔤 Remarks:</label>
+        <textarea name="remarks" rows="2" placeholder="Add any relevant notes..."></textarea>
+  
+        <button type="submit" id="submitBtn">
+          <span id="btnText">Submit</span>
+          <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
+        </button>
+      </form>
+  
+        <div id="message"></div>
+      </div>
     </div>
-
-    <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
-      <input type="hidden" name="formType" value="inward" />
-      <h3>📦 Inward updation</h3>
-
-      <label>Date:</label>
-      <input type="date" name="date" class="half-width" required />
-
-      <label>Store:</label>
-      <select name="store" required class="three-quarter-width">
-        <option value="" disabled selected>Choose location</option>
-        <option value="IMPLG-Shelf">IMPLG-Shelf</option>
-        <option value="IMPL">IMPL</option>
-        <option value="Primary Godown">Primary Godown</option>
-        <option value="Secondary Godown">Secondary Godown</option>
-        <option value="Meeting Room">Meeting Room</option>
-      </select>
-
-      <label>Type:</label>
-      <select name="type" required class="three-quarter-width">
-        <option value="" disabled selected>Choose the type</option>
-        <option value="Consumable">Consumable</option>
-        <option value="Instrument">Instrument</option>
-        <option value="Spares & Accessories">Spares & Accessories</option>
-      </select>
-
-      <label>🔤 Category:</label>
-      <input type="text" name="cat" />
-
-      <label>Item Name:</label>
-      <input list="itemList" name="itemName" id="itemName" placeholder="Select or type item name" required>
-      <datalist id="itemList"></datalist>
-
-      <label>Quantity:</label>
-      <input type="number" name="quantity" min="1" required maxlength="4" style="width: 80px;" />
-
-      <label>🔤 Source received from:</label>
-      <input type="text" name="source" />
-
-      <label>Packing:</label>
-      <select name="packing" required class="half-width">
-        <option value="" disabled selected>Pack Type</option>
-        <option value="Bottle">Bottle</option>
-        <option value="Box">Box</option>
-        <option value="Nos">Nos</option>
-        <option value="Pcs">Pcs</option>
-        <option value="Set">Set</option>
-      </select>
-
-      <label>🔤 Remarks:</label>
-      <textarea name="remarks" rows="2" placeholder="Add any relevant notes..."></textarea>
-
-      <button type="submit" id="submitBtn">
-        <span id="btnText">Submit</span>
-        <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
-      </button>
-    </form>
-
-    <div id="message"></div>
-  </div>
 
   <script>
     const form = document.getElementById("inwardForm");
