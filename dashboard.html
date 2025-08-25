@@ -102,7 +102,7 @@
   function renderCards(items) {
     const grid = document.getElementById('stockGrid');
     grid.innerHTML = '';
-    items.forEach(({ item, stock, lastUpdated }) => {
+    items.forEach(({ itemName, Quantity, lastUpdated }) => {
       const emoji = getStockEmoji(stock);
       const card = document.createElement('div');
       card.className = 'card';
