@@ -117,19 +117,16 @@
     input,
     select,
     textarea {
-      display: block;
-      margin-top: 0;
-      margin-bottom: 24px;
-      width: 100%;           /* Ensures full width */
-      padding: 8px;
-      font-size: 1rem;
+      margin-bottom: 0; /* No gap after field */
     }
     
-     textarea + small {
+    input + small,
+    select + small,
+    textarea + small {
       display: block;
-      margin-top: 6px;
-      margin-bottom: 10px;
-      color: grey;
+      margin-top: 4px; /* Tight spacing before small text */
+      font-size: 0.875rem;
+      color: #666;
     }
 
     .half-width {
