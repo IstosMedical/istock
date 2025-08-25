@@ -207,7 +207,7 @@
       </label>
 
       <label>Item Name:</label>
-        <select name="" id="item" required>
+        <select name="itemName" id="itemName" required>
           <option value="" disabled selected>Loading items...</option>
         </select>
       </label>
@@ -353,7 +353,7 @@
         const rows = text.split('\n');
         const itemNames = rows.map(row => row.split(',')[0].trim()).filter(name => name);
   
-        const select = document.getElementById('item');
+        const select = document.getElementById('itemName');
         select.innerHTML = '<option value="" disabled selected>Select item</option>';
   
         itemNames.forEach(name => {
@@ -364,7 +364,7 @@
         });
       } catch (error) {
         console.error('Failed to load item names:', error);
-        const select = document.getElementById('item');
+        const select = document.getElementById('itemName');
         select.innerHTML = '<option value="" disabled selected>Items unavailable</option>';
       }
     }
