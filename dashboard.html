@@ -82,7 +82,6 @@
 <script>
   const STOCK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
 
-  // Fetch stock data from Apps Script endpoint
   async function fetchStockData() {
     try {
       document.getElementById('stockGrid').innerHTML = '<p>⏳ Loading stock data...</p>';
@@ -98,11 +97,10 @@
     }
   }
 
-  // Render stock cards dynamically
   function renderCards(items) {
     const grid = document.getElementById('stockGrid');
     grid.innerHTML = '';
-    items.forEach(({ itemName, Quantity, lastUpdated }) => {
+    items.forEach(({ item, stock }) => {
       const emoji = getStockEmoji(stock);
       const card = document.createElement('div');
       card.className = 'card';
@@ -110,20 +108,17 @@
         <div class="emoji">${emoji}</div>
         <h3>${item}</h3>
         <p class="${stock < 10 ? 'low-stock' : ''}">Stock: ${stock}</p>
-        <small>📅 ${lastUpdated}</small>
       `;
       grid.appendChild(card);
     });
   }
 
-  // Determine emoji based on stock level
   function getStockEmoji(stock) {
     if (stock < 10) return '🟥';
     if (stock < 50) return '🟨';
     return '✅';
   }
 
-  // Attach search filter logic
   function attachSearchListener() {
     const input = document.getElementById('searchInput');
     input.addEventListener('input', e => {
@@ -136,7 +131,6 @@
     });
   }
 
-  // Toast feedback
   function showToast(message) {
     let toast = document.createElement('div');
     toast.className = 'toast';
@@ -145,12 +139,10 @@
     setTimeout(() => toast.remove(), 3000);
   }
 
-  // Refresh button logic
   document.getElementById('refreshBtn').addEventListener('click', () => {
     fetchStockData();
   });
 
-  // Initialize dashboard
   fetchStockData();
 </script>
 
