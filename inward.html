@@ -143,8 +143,8 @@
     <input type="date" name="date" class="half-width" required />
   </label>
 
-    <label>Store location:
-    <select name="Store" required class="three-quarter-width">
+    <label>Store:
+    <select name="store" required class="three-quarter-width">
           <option value="" disabled selected>Choose location</option>
           <option value="IMPLG-Shelf">IMPLG-Shelf</option>
           <option value="IMPL">IMPL</option>
@@ -155,7 +155,7 @@
   </label>
   
     <label>Type:
-    <select name="Type" required class="three-quarter-width">
+    <select name="type" required class="three-quarter-width">
           <option value="" disabled selected>Choose the type</option>
           <option value="Consumable">Consumable</option>
           <option value="Instrument">Instrument</option>
@@ -172,8 +172,28 @@
   </label>
 
   <label>Source:
-    <input type="text" name="source" required />
+    <input type="text" name="source" />
   </label>
+
+  <label>Cat:
+    <input type="cat" name="cat" />
+  </label>
+
+  <label>Packing:
+    <select name="packing" required class="three-quarter-width">
+          <option value="" disabled selected>Pack Type</option>
+          <option value="Bottle">Bottle</option>
+          <option value="Box">Box</option>
+          <option value="Nos">Nos</option>
+          <option value="Pcs">Pcs</option>
+          <option value="Set">Set</option>
+    </select>
+  </label>
+
+  <label>
+  Remarks:
+  <textarea name="remarks" rows="2" cols="50" placeholder="Add any relevant notes..." style="width: 100%; resize: vertical; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;"></textarea>
+</label>
 
   <div style="text-align: center;">
     <button type="submit" id="submitBtn">
