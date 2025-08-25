@@ -206,11 +206,23 @@
         <input type="date" name="date" class="half-width" required />
       </label>
 
-       <label>Item Name:</label>
+      <label>Item Name:</label>
         <select name="" id="item" required>
           <option value="" disabled selected>Loading items...</option>
         </select>
+      </label>
 
+      <label>Packing:</label>
+        <select name="packing" required class="half-width">
+          <option value="" disabled selected>Pack Type</option>
+          <option value="Bottle">Bottle</option>
+          <option value="Box">Box</option>
+          <option value="Nos">Nos</option>
+          <option value="Pcs">Pcs</option>
+          <option value="Set">Set</option>
+        </select>
+      </label>
+        
       <label>Balance Stock:
         <input type="text" id="balancecheck" readonly class="biscuit-bg" maxlength="4" />
       </label>
@@ -223,18 +235,8 @@
         <input type="text" name="source" required />
       </label>
 
-      <label>Packing:</label>
-        <select name="packing" required class="half-width">
-          <option value="" disabled selected>Pack Type</option>
-          <option value="Bottle">Bottle</option>
-          <option value="Box">Box</option>
-          <option value="Nos">Nos</option>
-          <option value="Pcs">Pcs</option>
-          <option value="Set">Set</option>
-        </select>
-  
-        <label>🔤 Remarks:</label>
-        <textarea name="remarks" rows="2" placeholder="Add any relevant notes..."></textarea>
+      <label>🔤 Remarks:</label>
+       <textarea name="remarks" rows="2" placeholder="Add any relevant notes..."></textarea>
         
       <div style="text-align: center;">
         <button type="submit" id="submitBtn">
