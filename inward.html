@@ -1,144 +1,146 @@
+<!-- inward.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iStock</title>
+
+  <!-- Android App Settings -->
   <link rel="manifest" href="manifest.json" />
+
+  <!-- iOS App Settings -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="ISTOS Leads" />
-  <link rel="apple-touch-icon" href="icons/icon-192.jpg" />
+  <meta name="apple-mobile-web-app-title" content="istock" />
+  <link rel="apple-touch-icon" href="mini.png" />
+
+  <style>
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #493320;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 9999;
+  }
+</style>
 
   <style>
     body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f2f5;
-    }
-    
-    .form-container {
-      display: flex;
-      justify-content: center;
-      padding: 1rem;
     }
 
-    .logo-container img {
-      max-width: 120px;
-      height: auto;
-      margin-bottom: 1rem;
-    }
-        
-        @media (max-width: 480px) {
-      .logo-container img {
-        max-width: 90px;
-        margin-bottom: 0.5rem;
-      }
-    }
-
-    .form-card {
-      background-color: #fff;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 500px;
-      box-sizing: border-box;
-    }
-    
-    .form-card label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 600;
-    }
-    
-    .form-card input {
-      width: 100%;
-      padding: 0.75rem;
-      margin-top: 0.5rem;
+    .biscuit-bg {
+      background-color: #FFEBCD;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      box-sizing: border-box;
+      width: 80px;
+    }
+    
+    .readonly-field {
+      background-color: #FFEBCD;
+      border: 1px solid #ccc;
+      width: 80px;
     }
 
-    .top-logo {
-      max-width: 180px;
-      height: auto;
-      display: block;
-      margin: 0 auto 0px;
-      border-radius: 0px;
-      animation: logoReveal 0.8s ease-out forwards;
-      transition: transform 0.3s ease;
+    .error {
+      color: #b00020;
+      background-color: #ffe6e6;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
     }
-    
-    .top-logo:hover {
-      transform: scale(1.05);
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    
+
     @keyframes logoReveal {
-      from {
+      0% {
         opacity: 0;
-        transform: scale(0.8);
+        transform: scale(0.85);
       }
-      to {
+      100% {
         opacity: 1;
         transform: scale(1);
       }
     }
+    
+    .top-logo {
+      width: 25%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      animation: logoReveal 0.8s ease-out forwards;
+    }
 
-    h3 {
+    .logo {
+      display: block;
+      margin: 0 auto 30px;
+      max-width: 180px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    h2 {
       text-align: center;
-      margin: 1rem 0;
-      color: #3b5998;
+      color: #2c3e50;
+      margin-bottom: 10px;
     }
 
     label {
+      display: block;
+      margin-top: 15px;
       font-weight: 600;
       color: #34495e;
-      margin-top: 10px;
-      display: block;
     }
 
-    input, select, textarea {
+    input, textarea, select {
       width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
+      padding: 10px;
+      margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 6px;
+      font-size: 14px;
       box-sizing: border-box;
-      transition: border-color 0.3s ease;
     }
 
-    input:focus, select:focus, textarea:focus {
-      border-color: #2980b9;
-      outline: none;
-    }
-
-    #itemName {
-      background-color: #745135;
-      color: #E4D2C4;
-    }
-
-    #itemName::placeholder {
-      color: #E4D2C4;
-      opacity: 0.7;
+    textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
     .half-width {
       width: 50%;
     }
 
-    .date-width {
-      width: 30%;
-    }
-    
     .three-quarter-width {
       width: 75%;
     }
 
     button {
       margin-top: 20px;
+      width: 200px;
       padding: 10px;
       background-color: #2980b9;
       color: white;
@@ -146,7 +148,6 @@
       border-radius: 6px;
       font-size: 15px;
       cursor: pointer;
-      width: 100%;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -155,24 +156,47 @@
       transform: scale(1.03);
     }
 
-    .success, .error {
+    .success {
       text-align: center;
+      color: green;
       margin-top: 15px;
-      font-weight: bold;
     }
 
-    .success { color: green; }
-    .error { color: red; }
+    .error {
+      text-align: center;
+      color: red;
+      margin-top: 15px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 20px;
+      }
+
+      input, select, textarea {
+        font-size: 16px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="form-container">
-     <div class="form-card">
-      <img src="mini.png" class="top-logo" alt="ISTOS Medical Logo" />
-  
-      <div style="text-align: right; font-size: 14px; color: #333;">
-        🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+  <div class="container">
+    <img src="mini.png" class="top-logo" alt="ISTOS Medical Logo" />
+
+      <!-- Title and Date with Line Gap -->
+      <!-- Date Block with No Wrapping -->
+      <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+        <div style="font-size: 14px; color: #333; white-space: nowrap;">
+          🗓️ Date: <span id="currentDate">16 Aug 2025</span>
+        </div>
       </div>
+
+    <div id="toast" style="display: none;"></div>
   
       <form id="inwardForm" method="POST" action="https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec">
         <input type="hidden" name="formType" value="inward" />
