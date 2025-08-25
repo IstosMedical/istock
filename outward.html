@@ -113,19 +113,21 @@
       margin-bottom: 5px; /* Adjust spacing as needed */
     }
 
-    input, textarea, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
+    label {
+      display: block;
+      margin-bottom: 4px; /* Tight spacing between label and field */
+      font-weight: 500;
     }
-
+    
+    input,
+    select,
     textarea {
-      resize: vertical;
-      min-height: 80px;
+      display: block;
+      margin-top: 0;         /* No gap above field */
+      margin-bottom: 16px;   /* 1 line gap after field */
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
     }
 
     .half-width {
