@@ -61,31 +61,52 @@
     <!-- Cards will be injected here -->
   </div>
 
-  <script>
-    async function fetchStockData() {
-      const res = await fetch('https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec');
+<script>
+  const STOCK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
+
+  // Fetch stock data from Apps Script endpoint
+  async function fetchStockData() {
+    try {
+      const res = await fetch(STOCK_ENDPOINT);
       const data = await res.json();
       renderCards(data);
+      attachSearchListener();
+    } catch (error) {
+      console.error("Failed to fetch stock data:", error);
+      document.getElementById('stockGrid').innerHTML = `<p>⚠️ Unable to load stock data.</p>`;
     }
+  }
 
-    function renderCards(items) {
-      const grid = document.getElementById('stockGrid');
-      grid.innerHTML = '';
-      items.forEach(({ item, stock, lastUpdated }) => {
-        const emoji = stock < 10 ? '🟥' : '✅';
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="emoji">${emoji}</div>
-          <h3>${item}</h3>
-          <p class="${stock < 10 ? 'low-stock' : ''}">Stock: ${stock}</p>
-          <small>📅 ${lastUpdated}</small>
-        `;
-        grid.appendChild(card);
-      });
-    }
+  // Render stock cards dynamically
+  function renderCards(items) {
+    const grid = document.getElementById('stockGrid');
+    grid.innerHTML = '';
 
-    document.getElementById('searchInput').addEventListener('input', e => {
+    items.forEach(({ item, stock, lastUpdated }) => {
+      const emoji = getStockEmoji(stock);
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="emoji">${emoji}</div>
+        <h3>${item}</h3>
+        <p class="${stock < 10 ? 'low-stock' : ''}">Stock: ${stock}</p>
+        <small>📅 ${lastUpdated}</small>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // Determine emoji based on stock level
+  function getStockEmoji(stock) {
+    if (stock < 10) return '🟥';
+    if (stock < 50) return '🟨';
+    return '✅';
+  }
+
+  // Attach search filter logic
+  function attachSearchListener() {
+    const input = document.getElementById('searchInput');
+    input.addEventListener('input', e => {
       const query = e.target.value.toLowerCase();
       const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
@@ -93,8 +114,11 @@
         card.style.display = name.includes(query) ? 'block' : 'none';
       });
     });
+  }
 
-    fetchStockData();
-  </script>
+  // Initialize dashboard
+  fetchStockData();
+</script>
+
 </body>
 </html>
