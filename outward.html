@@ -239,26 +239,42 @@
   </div>
 
 <script>
-  // 🔄 Balance Check on Item Change
-  const itemSelect = document.querySelector("select[name='itemName']");
-  const balanceField = document.getElementById("balancecheck");
+  let itemData = []; // Store full item list with stock
 
-  itemSelect.addEventListener("change", () => {
-    const selectedItem = itemSelect.value;
-    const url = "https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec";
-    const params = new URLSearchParams({ formType: "balancecheck", item: selectedItem });
+  // 🔄 Load item names and attach listener
+  async function loadItemNames() {
+    const jsonUrl = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
+    try {
+      const response = await fetch(jsonUrl);
+      itemData = await response.json();
 
-    balanceField.value = "⏳ Checking...";
-    fetch(`${url}?${params}`)
-      .then(res => res.text())
-      .then(balance => balanceField.value = balance)
-      .catch(err => {
-        balanceField.value = "⚠️ Error fetching stock";
-        console.error("Balance fetch error:", err);
+      const select = document.getElementById('itemName');
+      select.innerHTML = '<option value="" disabled selected>Select item</option>';
+
+      itemData.forEach(({ item }) => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.textContent = item;
+        select.appendChild(option);
       });
-  });
 
-  // 🚚 Outward Form Submission
+      select.addEventListener('change', updateBalanceStock);
+    } catch (error) {
+      console.error('❌ Failed to load item names:', error);
+      document.getElementById('itemName').innerHTML = '<option value="" disabled selected>Items unavailable</option>';
+    }
+  }
+
+  // 📦 Update balance stock field
+  function updateBalanceStock() {
+    const selectedItem = document.getElementById('itemName').value;
+    const match = itemData.find(obj => obj.item === selectedItem);
+    const stockField = document.getElementById('balancecheck');
+
+    stockField.value = match ? `📦 ${match.stock}` : '📦 N/A';
+  }
+
+  // 🚚 Handle outward form submission
   const form = document.getElementById("outwardForm");
   const submitBtn = document.getElementById("submitBtn");
   const btnText = document.getElementById("btnText");
@@ -269,7 +285,6 @@
   form.addEventListener("submit", event => {
     event.preventDefault();
 
-    // UI feedback
     submitBtn.disabled = true;
     btnText.textContent = "Submitting...";
     spinner.style.display = "inline";
@@ -295,11 +310,11 @@
     });
   });
 
-  // 🧼 Helper Functions
+  // 🧼 Reset form and UI
   function resetFormAfterDelay(delay) {
     setTimeout(() => {
       form.reset();
-      balanceField.value = "";
+      document.getElementById("balancecheck").value = "";
       messageBox.textContent = "";
       submitBtn.disabled = false;
       btnText.textContent = "Submit";
@@ -307,19 +322,18 @@
     }, delay);
   }
 
+  // 🔔 Toast feedback
   function showToast(message) {
-  const toast = document.getElementById("toast");
-  if (!toast) {
-    console.warn("Toast element not found.");
-    return;
+    if (!toast) {
+      console.warn("Toast element not found.");
+      return;
+    }
+    toast.textContent = message;
+    toast.style.display = "block";
+    setTimeout(() => window.location.reload(), 2000);
   }
 
-  toast.textContent = message;
-  toast.style.display = "block";
-
-  setTimeout(() => window.location.reload(), 2000);
-  }
-
+  // ⚠️ Error display
   function showError(msg) {
     messageBox.innerHTML = `<div class="error">${msg}</div>`;
     submitBtn.disabled = false;
@@ -331,47 +345,8 @@
   document.getElementById("currentDate").textContent = new Date().toLocaleDateString("en-GB", {
     day: "2-digit", month: "short", year: "numeric"
   });
-</script>
 
-<script>
-  let itemData = []; // Global variable to store full item list
-
-  async function loadItemNames() {
-    const jsonUrl = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
-    try {
-      const response = await fetch(jsonUrl);
-      itemData = await response.json(); // Save full data with stock
-
-      const select = document.getElementById('itemName');
-      select.innerHTML = '<option value="" disabled selected>Select item</option>';
-
-      itemData.forEach(({ item }) => {
-        const option = document.createElement('option');
-        option.value = item;
-        option.textContent = item;
-        select.appendChild(option);
-      });
-
-      // Add listener after populating
-      select.addEventListener('change', updateBalanceStock);
-    } catch (error) {
-      console.error('❌ Failed to load item names:', error);
-      document.getElementById('itemName').innerHTML = '<option value="" disabled selected>Items unavailable</option>';
-    }
-  }
-
-  function updateBalanceStock() {
-    const selectedItem = document.getElementById('itemName').value;
-    const match = itemData.find(obj => obj.item === selectedItem);
-    const stockField = document.getElementById('balanceStock');
-
-    if (match) {
-      stockField.value = `📦 ${match.stock}`;
-    } else {
-      stockField.value = '📦 N/A';
-    }
-  }
-
+  // 🚀 Initialize
   window.onload = loadItemNames;
 </script>
   
