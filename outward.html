@@ -366,9 +366,9 @@
     const stockField = document.getElementById('balanceStock');
 
     if (match) {
-      stockField.value = match.stock;
+      stockField.value = `📦 ${match.stock}`;
     } else {
-      stockField.value = 'N/A';
+      stockField.value = '📦 N/A';
     }
   }
 
