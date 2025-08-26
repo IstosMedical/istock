@@ -338,7 +338,8 @@
     const jsonUrl = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
     try {
       const response = await fetch(jsonUrl);
-      const itemNames = await response.json();
+      const items = await response.json();
+      const itemNames = items.map(obj => obj.item).filter(Boolean);
 
       console.log('📦 Item names from JSON:', itemNames);
 
