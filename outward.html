@@ -334,28 +334,41 @@
 </script>
 
 <script>
+  let itemData = []; // Global variable to store full item list
+
   async function loadItemNames() {
     const jsonUrl = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
     try {
       const response = await fetch(jsonUrl);
-      const items = await response.json();
-      const itemNames = items.map(obj => obj.item).filter(Boolean);
-
-      console.log('📦 Item names from JSON:', itemNames);
+      itemData = await response.json(); // Save full data with stock
 
       const select = document.getElementById('itemName');
       select.innerHTML = '<option value="" disabled selected>Select item</option>';
 
-      itemNames.forEach(name => {
+      itemData.forEach(({ item }) => {
         const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
+        option.value = item;
+        option.textContent = item;
         select.appendChild(option);
       });
+
+      // Add listener after populating
+      select.addEventListener('change', updateBalanceStock);
     } catch (error) {
       console.error('❌ Failed to load item names:', error);
-      const select = document.getElementById('itemName');
-      select.innerHTML = '<option value="" disabled selected>Items unavailable</option>';
+      document.getElementById('itemName').innerHTML = '<option value="" disabled selected>Items unavailable</option>';
+    }
+  }
+
+  function updateBalanceStock() {
+    const selectedItem = document.getElementById('itemName').value;
+    const match = itemData.find(obj => obj.item === selectedItem);
+    const stockField = document.getElementById('balanceStock');
+
+    if (match) {
+      stockField.value = match.stock;
+    } else {
+      stockField.value = 'N/A';
     }
   }
 
