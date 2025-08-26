@@ -333,18 +333,14 @@
   });
 </script>
 
-  <script>
+<script>
   async function loadItemNames() {
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJLYhunTSzJArhPNvd9A2wgWP5ZwRVoFRLr1zrxYRpX2lwn3FlZIOGBtbKw3je6kAafo2JQ8rPXlDs/pub?gid=1318227014&single=true&output=csv';
+    const jsonUrl = 'https://script.google.com/macros/s/2PACX-1vSJLYhunTSzJArhPNvd9A2wgWP5ZwRVoFRLr1zrxYRpX2lwn3FlZIOGBtbKw3je6kAafo2JQ8rPXlDs/pub?gid=1318227014&single=true&output=csv/exec';
     try {
-      const response = await fetch(csvUrl);
-      const text = await response.text();
+      const response = await fetch(jsonUrl);
+      const itemNames = await response.json();
 
-      // 🧪 Log raw CSV content for debugging
-      console.log('📦 Raw CSV content:', text);
-
-      const rows = text.trim().split('\n');
-      const itemNames = rows.map(row => row.split(',')[0].trim()).filter(name => name && name !== 'Item Name');
+      console.log('📦 Item names from JSON:', itemNames);
 
       const select = document.getElementById('itemName');
       select.innerHTML = '<option value="" disabled selected>Select item</option>';
@@ -364,7 +360,6 @@
 
   window.onload = loadItemNames;
 </script>
-
   
 </body>
 </html>
