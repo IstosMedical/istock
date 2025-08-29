@@ -221,6 +221,19 @@
           <option value="" disabled selected>Loading items...</option>
         </select>
 
+  <input
+  type="file"
+  accept="image/*"
+  capture="environment"
+  id="barcodeImageInput"
+  style="display: none"
+/>
+
+<button id="scanButton">📷 Scan Barcode</button>
+<input type="text" id="barcodeResult" placeholder="Barcode will appear here" />
+<div id="toast" style="display:none;"></div>
+
+        
         <label>📦 Packing:</label>
         <select name="packing" required class="half-width">
           <option value="" disabled selected>Pack Type</option>
@@ -350,6 +363,41 @@
 
   // 🚀 Initialize
   window.onload = loadItemNames;
+
+    import { BrowserMultiFormatReader } from '@zxing/library';
+
+const reader = new BrowserMultiFormatReader();
+
+document.getElementById('scanButton').addEventListener('click', () => {
+  document.getElementById('barcodeImageInput').click();
+});
+
+document.getElementById('barcodeImageInput').addEventListener('change', async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const img = await createImageBitmap(file);
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+
+  try {
+    const result = await reader.decodeFromCanvas(canvas);
+    document.getElementById('barcodeResult').value = result.text;
+    showToast(`✅ Barcode detected: ${result.text}`);
+  } catch (err) {
+    showToast('⚠️ No barcode found. Try again.');
+  }
+});
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.style.display = 'block';
+  setTimeout(() => (toast.style.display = 'none'), 3000);
+}
 
 </body>
 </html>
