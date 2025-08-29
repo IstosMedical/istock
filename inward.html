@@ -401,16 +401,13 @@
 
 
  
-
 <script>
-  // 🚀 Launch scanner
-  const scanBtn = document.getElementById('catScanBtn');
-  const imageInput = document.getElementById('catImageInput');
-  const resultField = document.getElementById('catResult');
+  // 🎯 Entry point
+  document.getElementById('catScanBtn').addEventListener('click', () => {
+    document.getElementById('catImageInput').click();
+  });
 
-  scanBtn.addEventListener('click', () => imageInput.click());
-
-  imageInput.addEventListener('change', async (e) => {
+  document.getElementById('catImageInput').addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -419,12 +416,13 @@
       const { data: { text } } = await Tesseract.recognize(blob, 'eng');
       console.log('📄 OCR Raw Text:', text);
 
-      const catCode = extractCatSuffix(text);
-      resultField.value = catCode || '';
+      const catNumber = extractCatNumber(text);
+      const resultField = document.getElementById('catResult');
+      resultField.value = catNumber || '';
 
       showToast(
-        catCode
-          ? `✅ CAT# code: ${catCode}`
+        catNumber
+          ? `✅ CAT# copied: ${catNumber}`
           : '❌ CAT# not found. Please retake the image.'
       );
     } catch (err) {
@@ -433,13 +431,13 @@
     }
   });
 
-  // 🔍 Extract CAT# suffix only
-  function extractCatSuffix(text) {
-    const match = text.match(/CAT#\s*([A-Z0-9\-]+)/i);
-    return match ? match[1].trim().toUpperCase() : null;
+  // 🔍 Extract CAT# from text
+  function extractCatNumber(text) {
+    const match = text.match(/CAT#\s*[A-Z0-9\-]+/i);
+    return match ? match[0].trim().toUpperCase() : null;
   }
 
-  // 🎨 Grayscale conversion for OCR
+  // 🎨 Convert image to grayscale for better OCR
   function convertToGrayscale(file) {
     return new Promise((resolve) => {
       const img = new Image();
