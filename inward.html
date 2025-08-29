@@ -402,19 +402,25 @@
     const file = event.target.files?.[0];
     if (!file) return;
 
-    showToast('🔍 Extracting model number...');
+    showToast('🔍 Scanning image for model number...');
 
     try {
       const result = await Tesseract.recognize(file, 'eng');
       const rawText = result.data.text;
-      const match = rawText.match(/Model\\s*[:\\-]?\\s*(\\w+)/i);
-      const modelNumber = match ? match[1] : rawText.trim();
 
-      document.getElementById('barcodeResult').value = modelNumber;
-      showToast(`✅ Model detected: ${modelNumber}`);
+      // Try to extract a model number like 7NL399
+      const match = rawText.match(/\b[0-9A-Z]{5,10}\b/g);
+      const probableModel = match?.find(code => code.includes('7NL')) || match?.[0];
+
+      if (probableModel) {
+        document.getElementById('barcodeResult').value = probableModel;
+        showToast(`✅ Model detected: ${probableModel}`);
+      } else {
+        showToast('⚠️ No model number found. Try again.');
+      }
     } catch (err) {
       console.error('OCR error:', err);
-      showToast('⚠️ Could not extract model number.');
+      showToast('❌ OCR failed. Please retake the image.');
     }
   });
 
@@ -425,7 +431,6 @@
     setTimeout(() => (toast.style.display = 'none'), 3000);
   }
 </script>
-
 
 </body>
 </html>
