@@ -7,7 +7,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iStock</title>
- 
+ <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+
   <!-- Android App Settings -->
   <link rel="manifest" href="manifest.json" />
 
@@ -218,8 +219,8 @@
         </select>
 
         <label for="barcode">Barcode Number:</label>
-        <input type="text" id="barcode" name="barcode" readonly />
-        <button type="button" onclick="startScanner()">Scan Barcode</button>
+        <input type="file" accept="image/*" capture="environment" id="cameraInput" style="display:none" onchange="handleImage(this)" />
+        <button type="button" onclick="document.getElementById('cameraInput').click()">📷 Scan Barcode</button>   
 
        <label>📦 Packing:</label>
         <select name="packing" required class="half-width">
@@ -353,40 +354,25 @@
 </script>
 
 <script>
-  function startScanner() {
-    const scannerDiv = document.getElementById('scanner');
-    scannerDiv.style.display = 'block';
+  function handleImage(input) {
+    const file = input.files[0];
+    if (!file) return;
 
-    Quagga.init({
-      inputStream: {
-        name: "Live",
-        type: "LiveStream",
-        target: scannerDiv,
-        constraints: {
-          facingMode: "environment"
-        }
-      },
-      decoder: {
-        readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"]
-      }
-    }, function(err) {
-      if (err) {
-        console.error("Scanner init error:", err);
-        showToast("❌ Scanner failed to start");
-        scannerDiv.style.display = 'none';
-        return;
-      }
-      Quagga.start();
-    });
+    showToast("🔍 Scanning image...");
 
-    Quagga.onDetected(function(result) {
-      const code = result.codeResult.code;
-      document.getElementById('barcode').value = code;
-      showToast(`✅ Scanned: ${code}`);
-      Quagga.stop();
-      Quagga.offDetected(); // prevent multiple triggers
-      scannerDiv.style.display = 'none';
-      scannerDiv.innerHTML = '';
+    Tesseract.recognize(file, 'eng', {
+      logger: m => console.log(m)
+    }).then(({ data: { text } }) => {
+      const cleaned = text.replace(/\s/g, '').match(/[A-Z0-9\-]{6,}/);
+      if (cleaned) {
+        document.getElementById('barcode').value = cleaned[0];
+        showToast(`✅ Scanned: ${cleaned[0]}`);
+      } else {
+        showToast("❌ No barcode text found");
+      }
+    }).catch(err => {
+      console.error("OCR error:", err);
+      showToast("❌ OCR failed");
     });
   }
 
@@ -400,16 +386,6 @@
   }
 </script>
 
-<div id="scanner" style="
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.8);
-  z-index: 9999;
-  display: none;
-"></div>
 
 </body>
 </html>
