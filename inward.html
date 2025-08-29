@@ -388,68 +388,44 @@
   window.onload = loadItemNames;
 </script>
 
- <script type="module">
-  import { BrowserMultiFormatReader } from 'https://unpkg.com/@zxing/library@latest?module';
+<script>
+  document.getElementById('scanButton').addEventListener('click', () => {
+    document.getElementById('barcodeImageInput').click();
+  });
 
-  const scanner = {
-    reader: new BrowserMultiFormatReader(),
-    init() {
-      this.bindUI();
-    },
-    bindUI() {
-      const scanBtn = document.getElementById('scanButton');
-      const toggleBtn = document.getElementById('toggleScanner');
-      const imageInput = document.getElementById('barcodeImageInput');
+  document.getElementById('toggleScanner').addEventListener('click', () => {
+    const container = document.getElementById('scannerContainer');
+    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+  });
 
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', this.toggleScannerUI);
-      }
+  document.getElementById('barcodeImageInput').addEventListener('change', async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-      if (scanBtn && imageInput) {
-        scanBtn.addEventListener('click', () => imageInput.click());
-        imageInput.addEventListener('change', this.handleImageUpload.bind(this));
-      }
-    },
-    toggleScannerUI() {
-      const container = document.getElementById('scannerContainer');
-      if (container) {
-        container.style.display = container.style.display === 'none' ? 'block' : 'none';
-      }
-    },
-    async handleImageUpload(event) {
-      const file = event.target.files?.[0];
-      if (!file) return;
+    showToast('🔍 Extracting model number...');
 
-      try {
-        const img = await createImageBitmap(file);
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0);
+    try {
+      const result = await Tesseract.recognize(file, 'eng');
+      const rawText = result.data.text;
+      const match = rawText.match(/Model\\s*[:\\-]?\\s*(\\w+)/i);
+      const modelNumber = match ? match[1] : rawText.trim();
 
-        const result = await this.reader.decodeFromCanvas(canvas);
-        this.updateResult(result.text);
-        this.showToast(`✅ Barcode detected: ${result.text}`);
-      } catch (err) {
-        console.warn('Decode error:', err);
-        this.showToast('⚠️ No barcode found. Try again.');
-      }
-    },
-    updateResult(text) {
-      const resultField = document.getElementById('barcodeResult');
-      if (resultField) resultField.value = text;
-    },
-    showToast(message) {
-      const toast = document.getElementById('toast');
-      if (!toast) return;
-      toast.textContent = message;
-      toast.style.display = 'block';
-      setTimeout(() => (toast.style.display = 'none'), 3000);
+      document.getElementById('barcodeResult').value = modelNumber;
+      showToast(`✅ Model detected: ${modelNumber}`);
+    } catch (err) {
+      console.error('OCR error:', err);
+      showToast('⚠️ Could not extract model number.');
     }
-  };
+  });
 
-  scanner.init();
-</script> 
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => (toast.style.display = 'none'), 3000);
+  }
+</script>
+
 
 </body>
 </html>
