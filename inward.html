@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iStock</title>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+  <script src="https://unpkg.com/@zxing/library@latest"></script>
   
   <!-- Android App Settings -->
   <link rel="manifest" href="manifest.json" />
@@ -404,27 +404,29 @@
 </script>
 
 
-
-
-
  
-<script>
-  // 🎯 Entry point
-  document.getElementById('catScanBtn').addEventListener('click', () => {
-    document.getElementById('catImageInput').click();
-  });
+<script type="module">
+  // 📦 Imports (optional if using Tesseract via CDN)
+  // import Tesseract from 'tesseract.js';
 
-  document.getElementById('catImageInput').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
+  // 🎯 Entry point
+  const scanBtn = document.getElementById('catScanBtn');
+  const imageInput = document.getElementById('catImageInput');
+  const resultField = document.getElementById('catResult');
+  const toast = document.getElementById('toast');
+
+  scanBtn.addEventListener('click', () => imageInput.click());
+
+  imageInput.addEventListener('change', async (e) => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
     try {
-      const blob = await convertToGrayscale(file);
-      const { data: { text } } = await Tesseract.recognize(blob, 'eng');
-      console.log('📄 OCR Raw Text:', text);
+      const grayscaleBlob = await convertToGrayscale(file);
+      const ocrText = await extractTextFromImage(grayscaleBlob);
+      console.log('📄 OCR Raw Text:', ocrText);
 
-      const catNumber = extractCatNumber(text);
-      const resultField = document.getElementById('catResult');
+      const catNumber = extractCatNumber(ocrText);
       resultField.value = catNumber || '';
 
       showToast(
@@ -438,13 +440,19 @@
     }
   });
 
-  // 🔍 Extract CAT# from text
+  // 🔍 OCR text extraction
+  async function extractTextFromImage(blob) {
+    const { data: { text } } = await Tesseract.recognize(blob, 'eng');
+    return text;
+  }
+
+  // 🧠 Extract CAT# pattern
   function extractCatNumber(text) {
     const match = text.match(/CAT#\s*[A-Z0-9\-]+/i);
     return match ? match[0].trim().toUpperCase() : null;
   }
 
-  // 🎨 Convert image to grayscale for better OCR
+  // 🎨 Grayscale conversion
   function convertToGrayscale(file) {
     return new Promise((resolve) => {
       const img = new Image();
@@ -461,6 +469,7 @@
           const avg = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
           imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = avg;
         }
+
         ctx.putImageData(imageData, 0, 0);
         canvas.toBlob(resolve, 'image/png');
       };
@@ -471,7 +480,6 @@
 
   // 🍞 Toast feedback
   function showToast(message) {
-    const toast = document.getElementById('toast');
     toast.textContent = message;
     toast.hidden = false;
     setTimeout(() => (toast.hidden = true), 3000);
