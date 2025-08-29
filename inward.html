@@ -246,9 +246,15 @@
   style="display: none"
 />
 
-<button id="scanButton">📷 Scan Barcode</button>
-<input type="text" id="barcodeResult" placeholder="Barcode will appear here" />
-<div id="toast" style="display:none;"></div>
+<button id="toggleScanner">🔍 Enable Scanner</button>
+<div id="scannerContainer" style="display: none;">
+  <button id="scanButton">📷 Scan Barcode</button>
+  <input type="text" id="barcodeResult" name="barcode" placeholder="Barcode will appear here" />
+  <div id="toast" style="display:none;"></div>
+</div>
+
+<small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
+
 
         
         <label>📦 Packing:</label>
@@ -382,6 +388,7 @@
   window.onload = loadItemNames;
 </script>
 
+ 
 <script type="module">
   import { BrowserMultiFormatReader } from 'https://unpkg.com/@zxing/library@latest?module';
 
@@ -391,6 +398,11 @@
     document.getElementById('barcodeImageInput').click();
   });
 
+  document.getElementById('toggleScanner').addEventListener('click', () => {
+    const container = document.getElementById('scannerContainer');
+    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+  });
+  
   document.getElementById('barcodeImageInput').addEventListener('change', async (event) => {
     const file = event.target.files[0];
     if (!file) return;
