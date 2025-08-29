@@ -16,17 +16,27 @@ domReady(function () {
   });
 
 function onScanSuccess(decodedText, decodedResult) {
-  // ✅ Auto-fill the text field
-  document.getElementById("qr-result").value = decodedText;
+  const qrField = document.getElementById("qr-result");
 
-  // ✅ Optional: show toast or alert
+  if (qrField) {
+    qrField.value = decodedText;
+  } else {
+    console.warn("QR result field not found in DOM.");
+  }
+
   alert("✅ QR Code scanned: " + decodedText);
 
-  // 🛑 Stop scanning
   scanner.clear().then(() => {
     document.getElementById("my-qr-reader").innerHTML = "";
   }).catch((err) => {
     console.error("Failed to clear scanner:", err);
   });
 }
+
+  const toast = document.createElement("div");
+toast.textContent = "QR scanned: " + decodedText;
+toast.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#4caf50;color:white;padding:10px 20px;border-radius:5px;z-index:9999;";
+document.body.appendChild(toast);
+setTimeout(() => toast.remove(), 3000);
+
 
