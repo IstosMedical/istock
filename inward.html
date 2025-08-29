@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iStock</title>
-  <script src="https://unpkg.com/@zxing/library@latest"></script>
+  <script src="https://unpkg.com/tesseract.js@latest/dist/tesseract.min.js"></script>
   
   <!-- Android App Settings -->
   <link rel="manifest" href="manifest.json" />
@@ -388,49 +388,68 @@
   window.onload = loadItemNames;
 </script>
 
- 
-<script type="module">
+ <script type="module">
   import { BrowserMultiFormatReader } from 'https://unpkg.com/@zxing/library@latest?module';
 
-  const reader = new BrowserMultiFormatReader();
+  const scanner = {
+    reader: new BrowserMultiFormatReader(),
+    init() {
+      this.bindUI();
+    },
+    bindUI() {
+      const scanBtn = document.getElementById('scanButton');
+      const toggleBtn = document.getElementById('toggleScanner');
+      const imageInput = document.getElementById('barcodeImageInput');
 
-  document.getElementById('scanButton').addEventListener('click', () => {
-    document.getElementById('barcodeImageInput').click();
-  });
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', this.toggleScannerUI);
+      }
 
-  document.getElementById('toggleScanner').addEventListener('click', () => {
-    const container = document.getElementById('scannerContainer');
-    container.style.display = container.style.display === 'none' ? 'block' : 'none';
-  });
-  
-  document.getElementById('barcodeImageInput').addEventListener('change', async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+      if (scanBtn && imageInput) {
+        scanBtn.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', this.handleImageUpload.bind(this));
+      }
+    },
+    toggleScannerUI() {
+      const container = document.getElementById('scannerContainer');
+      if (container) {
+        container.style.display = container.style.display === 'none' ? 'block' : 'none';
+      }
+    },
+    async handleImageUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
 
-    const img = await createImageBitmap(file);
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
+      try {
+        const img = await createImageBitmap(file);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
 
-    try {
-      const result = await reader.decodeFromCanvas(canvas);
-      document.getElementById('barcodeResult').value = result.text;
-      showToast(`✅ Barcode detected: ${result.text}`);
-    } catch (err) {
-      showToast('⚠️ No barcode found. Try again.');
+        const result = await this.reader.decodeFromCanvas(canvas);
+        this.updateResult(result.text);
+        this.showToast(`✅ Barcode detected: ${result.text}`);
+      } catch (err) {
+        console.warn('Decode error:', err);
+        this.showToast('⚠️ No barcode found. Try again.');
+      }
+    },
+    updateResult(text) {
+      const resultField = document.getElementById('barcodeResult');
+      if (resultField) resultField.value = text;
+    },
+    showToast(message) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => (toast.style.display = 'none'), 3000);
     }
-  });
+  };
 
-  function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.style.display = 'block';
-    setTimeout(() => (toast.style.display = 'none'), 3000);
-  }
-</script>
-  
+  scanner.init();
+</script> 
 
 </body>
 </html>
