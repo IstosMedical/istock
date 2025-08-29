@@ -237,25 +237,6 @@
         <select name="item" id="itemName" required>
           <option value="" disabled selected>Loading items...</option>
         </select>
-
-  <input
-  type="file"
-  accept="image/*"
-  capture="environment"
-  id="barcodeImageInput"
-  style="display: none"
-/>
-
-<button id="toggleScanner">🔍 Enable Scanner</button>
-<div id="scannerContainer" style="display: none;">
-  <button id="scanButton">📷 Scan Barcode</button>
-  <input type="text" id="barcodeResult" name="barcode" placeholder="Barcode will appear here" />
-  <div id="toast" style="display:none;"></div>
-</div>
-
-<small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
-
-
         
         <label>📦 Packing:</label>
         <select name="packing" required class="half-width">
@@ -391,18 +372,47 @@
 
   
 
+
+
+
+  <!-- 📸 Hidden file input for camera capture -->
+<input
+  type="file"
+  accept="image/*"
+  capture="environment"
+  id="barcodeImageInput"
+  style="display: none"
+/>
+
+<!-- 📷 Scan trigger and result field -->
+<div id="scannerUI">
+  <button id="scanButton" type="button">📷 Scan Barcode</button>
+  <input
+    type="text"
+    id="barcodeResult"
+    name="barcode"
+    placeholder="Barcode will appear here"
+  />
+  <div id="toast" style="display: none;"></div>
+</div>
+
+<small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">
+  This is an optional field
+</small>
+
 <script>
-  // 🔄 Toggle scanner visibility
-  function toggleScannerVisibility() {
-    const container = document.getElementById('scannerContainer');
-    const isVisible = container.style.display === 'block';
-    container.style.display = isVisible ? 'none' : 'block';
-    if (!isVisible) container.scrollIntoView({ behavior: 'smooth' });
-  }
+  // 📸 Trigger camera input
+  document.getElementById('scanButton').addEventListener('click', () => {
+    document.getElementById('barcodeImageInput').click();
+  });
 
-  document.getElementById('toggleScanner').addEventListener('click', toggleScannerVisibility);
+  // 📥 Handle image selection
+  document.getElementById('barcodeImageInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) scanModelNumber(file);
+  });
 
-  // 📸 Scan and extract model number
+  // 🔍 OCR + model extraction
   async function scanModelNumber(file) {
     try {
       const processedBlob = await preprocessImage(file);
@@ -424,7 +434,6 @@
     const cleaned = text.replace(/[^a-zA-Z0-9#]/g, ' ').toUpperCase();
     const tokens = cleaned.split(/\s+/);
 
-    // Priority 1: CAT# pattern
     for (let i = 0; i < tokens.length - 1; i++) {
       if (tokens[i] === 'CAT#' || tokens[i].startsWith('CAT#')) {
         const direct = tokens[i].replace('CAT#', '');
@@ -432,7 +441,6 @@
       }
     }
 
-    // Priority 2: Longest valid alphanumeric chunk
     const fallback = tokens
       .filter(t => /^[A-Z0-9]{5,10}$/.test(t))
       .sort((a, b) => b.length - a.length)[0];
@@ -454,8 +462,8 @@
 
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < imageData.data.length; i += 4) {
-          const avg = (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3;
-          imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = avg;
+          const avg = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
+          imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = avg;
         }
         ctx.putImageData(imageData, 0, 0);
         canvas.toBlob(resolve, 'image/png');
@@ -473,6 +481,9 @@
     setTimeout(() => (toast.style.display = 'none'), 3000);
   }
 </script>
+
+
+
 
 </body>
 </html>
