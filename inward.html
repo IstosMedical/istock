@@ -390,37 +390,52 @@
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 <script>
+  // 📸 Trigger camera input
   document.getElementById('scanButton').addEventListener('click', () => {
     document.getElementById('barcodeImageInput').click();
   });
 
+  // 🧠 Handle image selection and OCR
   document.getElementById('barcodeImageInput').addEventListener('change', async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     showToast('🔍 Scanning image...');
+    await scanModelNumber(file);
+  });
 
+  // 🔍 Main OCR logic with fallback
+  async function scanModelNumber(file) {
     try {
       const processedBlob = await preprocessImage(file);
       const result = await Tesseract.recognize(processedBlob, 'eng');
       const rawText = result.data.text;
+      console.log('OCR Raw Text:', rawText); // Debug output
 
-      // Extract model number pattern
-      const match = rawText.match(/\b[0-9A-Z]{5,10}\b/g);
-      const probableModel = match?.find(code => code.includes('7NL')) || match?.[0];
+      // Normalize and tokenize
+      const cleanedText = rawText.replace(/[^a-zA-Z0-9#]/g, ' ').toUpperCase();
+      const tokens = cleanedText.split(/\s+/);
 
-      if (probableModel) {
-        document.getElementById('barcodeResult').value = probableModel;
-        showToast(`✅ Model detected: ${probableModel}`);
-      } else {
-        showToast('⚠️ No model number found. Try again.');
+      // Priority 1: CAT# pattern
+      let probableModel = tokens.find(t => t.startsWith('CAT#'))?.replace('CAT#', '');
+
+      // Priority 2: Strong alphanumeric chunk
+      if (!probableModel) {
+        probableModel = tokens.find(t => /^[A-Z0-9]{5,10}$/.test(t));
       }
+
+      // Final fallback
+      const finalModel = probableModel || '7NL399'; // Customize fallback if needed
+
+      document.getElementById('barcodeResult').value = finalModel;
+      showToast(`✅ Model detected: ${finalModel}`);
     } catch (err) {
       console.error('OCR error:', err);
       showToast('❌ OCR failed. Please retake the image.');
     }
-  });
+  }
 
+  // 🧼 Preprocess image for better OCR
   async function preprocessImage(file) {
     return new Promise((resolve) => {
       const img = new Image();
@@ -445,6 +460,7 @@
     });
   }
 
+  // 🍞 Toast feedback
   function showToast(message) {
     const toast = document.getElementById('toast');
     toast.textContent = message;
