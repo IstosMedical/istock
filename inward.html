@@ -392,56 +392,25 @@
   
 
 <script>
-  document.getElementById('toggleScanner').addEventListener('click', () => {
+  // 🔄 Toggle scanner visibility
+  function toggleScannerVisibility() {
     const container = document.getElementById('scannerContainer');
     const isVisible = container.style.display === 'block';
     container.style.display = isVisible ? 'none' : 'block';
-
-    // Optional: scroll to scanner section
     if (!isVisible) container.scrollIntoView({ behavior: 'smooth' });
-  });
-</script>
+  }
 
-  
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
-<script>
-  // 📸 Trigger camera input
-  document.getElementById('scanButton').addEventListener('click', () => {
-    document.getElementById('barcodeImageInput').click();
-  });
+  document.getElementById('toggleScanner').addEventListener('click', toggleScannerVisibility);
 
-  // 🧠 Handle image selection and OCR
-  document.getElementById('barcodeImageInput').addEventListener('change', async (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    showToast('🔍 Scanning image...');
-    await scanModelNumber(file);
-  });
-
-  // 🔍 Main OCR logic with fallback
+  // 📸 Scan and extract model number
   async function scanModelNumber(file) {
     try {
       const processedBlob = await preprocessImage(file);
       const result = await Tesseract.recognize(processedBlob, 'eng');
       const rawText = result.data.text;
-      console.log('OCR Raw Text:', rawText); // Debug output
+      console.log('OCR Raw Text:', rawText);
 
-      // Normalize and tokenize
-      const cleanedText = rawText.replace(/[^a-zA-Z0-9#]/g, ' ').toUpperCase();
-      const tokens = cleanedText.split(/\s+/);
-
-      // Priority 1: CAT# pattern
-      let probableModel = tokens.find(t => t.startsWith('CAT#'))?.replace('CAT#', '');
-
-      // Priority 2: Strong alphanumeric chunk
-      if (!probableModel) {
-        probableModel = tokens.find(t => /^[A-Z0-9]{5,10}$/.test(t));
-      }
-
-      // Final fallback
-      const finalModel = probableModel || '7NL399'; // Customize fallback if needed
-
+      const finalModel = extractModelFromText(rawText);
       document.getElementById('barcodeResult').value = finalModel;
       showToast(`✅ Model detected: ${finalModel}`);
     } catch (err) {
@@ -450,7 +419,28 @@
     }
   }
 
-  // 🧼 Preprocess image for better OCR
+  // 🧠 Extract model number using CAT# logic and fallback
+  function extractModelFromText(text) {
+    const cleaned = text.replace(/[^a-zA-Z0-9#]/g, ' ').toUpperCase();
+    const tokens = cleaned.split(/\s+/);
+
+    // Priority 1: CAT# pattern
+    for (let i = 0; i < tokens.length - 1; i++) {
+      if (tokens[i] === 'CAT#' || tokens[i].startsWith('CAT#')) {
+        const direct = tokens[i].replace('CAT#', '');
+        return direct || tokens[i + 1] || 'UNKNOWN';
+      }
+    }
+
+    // Priority 2: Longest valid alphanumeric chunk
+    const fallback = tokens
+      .filter(t => /^[A-Z0-9]{5,10}$/.test(t))
+      .sort((a, b) => b.length - a.length)[0];
+
+    return fallback || 'UNKNOWN';
+  }
+
+  // 🧼 Preprocess image for OCR
   async function preprocessImage(file) {
     return new Promise((resolve) => {
       const img = new Image();
