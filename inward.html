@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iStock</title>
-  <script src="https://unpkg.com/@zxing/browser@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 
   <!-- Android App Settings -->
   <link rel="manifest" href="manifest.json" />
@@ -223,8 +223,9 @@
         </select>
 
         <label for="barcode">Barcode Number:</label>
-        <input type="file" accept="image/*" capture="environment" id="cameraInput" style="display:none" onchange="scanImage(this)" />
-        <button type="button" onclick="document.getElementById('cameraInput').click()">📷 Scan Barcode</button>
+        <input type="text" id="barcode" name="barcode" readonly />
+        <button type="button" onclick="startScanner()">Scan Barcode</button>
+
         <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
 
        <label>📦 Packing:</label>
@@ -358,41 +359,39 @@
   window.onload = loadItemNames;
 </script>
 
+<div id="scanner" style="width:100%; height:200px;"></div>
+
 <script>
-  async function scanImage(input) {
-    const file = input.files[0];
-    if (!file) return;
+function startScanner() {
+  Quagga.init({
+    inputStream: {
+      name: "Live",
+      type: "LiveStream",
+      target: document.querySelector('#scanner'),
+      constraints: {
+        facingMode: "environment" // rear camera
+      }
+    },
+    decoder: {
+      readers: ["code_128_reader", "ean_reader", "ean_8_reader"]
+    }
+  }, function(err) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    Quagga.start();
+  });
 
-    showToast("🔍 Scanning image...");
-
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const img = new Image();
-      img.src = reader.result;
-      img.onload = async () => {
-        const codeReader = new ZXing.BrowserBarcodeReader();
-        try {
-          const result = await codeReader.decodeFromImageElement(img);
-          document.getElementById('barcode').value = result.text;
-          showToast(`✅ Scanned: ${result.text}`);
-        } catch (err) {
-          console.error("Scan error:", err);
-          showToast("❌ No barcode detected");
-        }
-      };
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function showToast(message) {
-    const toast = document.getElementById("toast");
-    toast.textContent = message;
-    toast.style.display = "block";
-    setTimeout(() => {
-      toast.style.display = "none";
-    }, 3000);
-  }
+  Quagga.onDetected(function(result) {
+    const code = result.codeResult.code;
+    document.getElementById('barcode').value = code;
+    Quagga.stop();
+    document.getElementById('scanner').innerHTML = ''; // clear preview
+  });
+}
 </script>
+
 
   <div id="scanner" style="
   position: fixed;
@@ -404,7 +403,6 @@
   z-index: 9999;
   display: none;
 "></div>
-
 
 </body>
 </html>
