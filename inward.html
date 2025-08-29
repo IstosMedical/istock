@@ -268,27 +268,30 @@
     }
   }
 
-  domReady(function () {
-    const scanner = new Html5QrcodeScanner("my-qr-reader", {
-      fps: 10,
-      qrbox: 250
-    });
+domReady(function () {
+  loadItemNames(); // ✅ This ensures item names load on page render
 
-    function onScanSuccess(decodedText, decodedResult) {
-      const qrField = document.getElementById("qr-result");
-      if (qrField) qrField.value = decodedText;
-
-      alert("✅ QR Code scanned: " + decodedText);
-
-      scanner.clear().then(() => {
-        document.getElementById("my-qr-reader").innerHTML = "";
-      }).catch((err) => {
-        console.error("Failed to clear scanner:", err);
-      });
-    }
-
-    scanner.render(onScanSuccess);
+  const scanner = new Html5QrcodeScanner("my-qr-reader", {
+    fps: 10,
+    qrbox: 250
   });
+
+  function onScanSuccess(decodedText, decodedResult) {
+    const qrField = document.getElementById("qr-result");
+    if (qrField) qrField.value = decodedText;
+
+    alert("✅ QR Code scanned: " + decodedText);
+
+    scanner.clear().then(() => {
+      document.getElementById("my-qr-reader").innerHTML = "";
+    }).catch((err) => {
+      console.error("Failed to clear scanner:", err);
+    });
+  }
+
+  scanner.render(onScanSuccess);
+});
+
 </script>
 
 
