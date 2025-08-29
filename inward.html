@@ -388,6 +388,21 @@
   window.onload = loadItemNames;
 </script>
 
+
+  
+
+<script>
+  document.getElementById('toggleScanner').addEventListener('click', () => {
+    const container = document.getElementById('scannerContainer');
+    const isVisible = container.style.display === 'block';
+    container.style.display = isVisible ? 'none' : 'block';
+
+    // Optional: scroll to scanner section
+    if (!isVisible) container.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+
+  
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 <script>
   // 📸 Trigger camera input
