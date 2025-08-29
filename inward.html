@@ -120,6 +120,10 @@
       width: 50%;
     }
 
+    .date-width {
+      width: 40%;
+    }
+
     .three-quarter-width {
       width: 75%;
     }
@@ -220,7 +224,8 @@
 
         <label for="barcode">Barcode Number:</label>
         <input type="file" accept="image/*" capture="environment" id="cameraInput" style="display:none" onchange="handleImage(this)" />
-        <button type="button" onclick="document.getElementById('cameraInput').click()">📷 Scan Barcode</button>   
+        <button type="button" onclick="document.getElementById('cameraInput').click()">📷 Scan Barcode</button>
+        <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
 
        <label>📦 Packing:</label>
         <select name="packing" required class="half-width">
