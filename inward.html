@@ -373,8 +373,7 @@
 
 
 
-
-  <!-- 📸 Hidden camera input -->
+<!-- 📸 Hidden camera input -->
 <input
   type="file"
   accept="image/*"
@@ -390,7 +389,7 @@
     type="text"
     id="catResult"
     name="cat"
-    placeholder="CAT# will appear here"
+    placeholder="CAT# code will appear here"
   />
   <div id="toast" hidden></div>
 </div>
@@ -398,15 +397,17 @@
 <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">
   This is an optional field
 </small>
-
+ 
 
 <script>
-  // 🎯 Entry point
-  document.getElementById('catScanBtn').addEventListener('click', () => {
-    document.getElementById('catImageInput').click();
-  });
+  // 🚀 Launch scanner
+  const scanBtn = document.getElementById('catScanBtn');
+  const imageInput = document.getElementById('catImageInput');
+  const resultField = document.getElementById('catResult');
 
-  document.getElementById('catImageInput').addEventListener('change', async (e) => {
+  scanBtn.addEventListener('click', () => imageInput.click());
+
+  imageInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -415,13 +416,12 @@
       const { data: { text } } = await Tesseract.recognize(blob, 'eng');
       console.log('📄 OCR Raw Text:', text);
 
-      const catNumber = extractCatNumber(text);
-      const resultField = document.getElementById('catResult');
-      resultField.value = catNumber || '';
+      const catCode = extractCatSuffix(text);
+      resultField.value = catCode || '';
 
       showToast(
-        catNumber
-          ? `✅ CAT# copied: ${catNumber}`
+        catCode
+          ? `✅ CAT# code: ${catCode}`
           : '❌ CAT# not found. Please retake the image.'
       );
     } catch (err) {
@@ -430,13 +430,13 @@
     }
   });
 
-  // 🔍 Extract CAT# from text
-  function extractCatNumber(text) {
-    const match = text.match(/CAT#\s*[A-Z0-9\-]+/i);
-    return match ? match[0].trim().toUpperCase() : null;
+  // 🔍 Extract CAT# suffix only
+  function extractCatSuffix(text) {
+    const match = text.match(/CAT#\s*([A-Z0-9\-]+)/i);
+    return match ? match[1].trim().toUpperCase() : null;
   }
 
-  // 🎨 Convert image to grayscale for better OCR
+  // 🎨 Grayscale conversion for OCR
   function convertToGrayscale(file) {
     return new Promise((resolve) => {
       const img = new Image();
@@ -468,8 +468,7 @@
     toast.hidden = false;
     setTimeout(() => (toast.hidden = true), 3000);
   }
-</script> 
-
+</script>
 
 </body>
 </html>
