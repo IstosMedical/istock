@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>iStock</title>
-  <script src="https://unpkg.com/tesseract.js@latest/dist/tesseract.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
   
   <!-- Android App Settings -->
   <link rel="manifest" href="manifest.json" />
@@ -388,27 +388,24 @@
   window.onload = loadItemNames;
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 <script>
   document.getElementById('scanButton').addEventListener('click', () => {
     document.getElementById('barcodeImageInput').click();
-  });
-
-  document.getElementById('toggleScanner').addEventListener('click', () => {
-    const container = document.getElementById('scannerContainer');
-    container.style.display = container.style.display === 'none' ? 'block' : 'none';
   });
 
   document.getElementById('barcodeImageInput').addEventListener('change', async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    showToast('🔍 Scanning image for model number...');
+    showToast('🔍 Scanning image...');
 
     try {
-      const result = await Tesseract.recognize(file, 'eng');
+      const processedBlob = await preprocessImage(file);
+      const result = await Tesseract.recognize(processedBlob, 'eng');
       const rawText = result.data.text;
 
-      // Try to extract a model number like 7NL399
+      // Extract model number pattern
       const match = rawText.match(/\b[0-9A-Z]{5,10}\b/g);
       const probableModel = match?.find(code => code.includes('7NL')) || match?.[0];
 
@@ -423,6 +420,30 @@
       showToast('❌ OCR failed. Please retake the image.');
     }
   });
+
+  async function preprocessImage(file) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < imageData.data.length; i += 4) {
+          const avg = (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3;
+          imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = avg;
+        }
+        ctx.putImageData(imageData, 0, 0);
+        canvas.toBlob(resolve, 'image/png');
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+  }
 
   function showToast(message) {
     const toast = document.getElementById('toast');
