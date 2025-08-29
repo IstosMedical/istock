@@ -370,11 +370,6 @@
 </script>
 
 
-  
-
-
-
-
   <!-- 📸 Hidden file input for camera capture -->
 <input
   type="file"
@@ -482,7 +477,86 @@
   }
 </script>
 
+// 📸 Trigger camera input
+const scanButton = document.getElementById('scanButton');
+const barcodeInput = document.getElementById('barcodeImageInput');
+const barcodeResult = document.getElementById('barcodeResult');
 
+scanButton.addEventListener('click', () => barcodeInput.click());
+
+barcodeInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) scanModelNumber(file);
+});
+
+// 🔍 OCR + CAT# extraction
+async function scanModelNumber(file) {
+  try {
+    const processedBlob = await preprocessImage(file);
+    const result = await Tesseract.recognize(processedBlob, 'eng');
+    const rawText = result.data.text;
+    console.log('OCR Raw Text:', rawText);
+
+    const catNumber = extractCatNumber(rawText);
+    barcodeResult.value = catNumber;
+    showToast(
+      catNumber === 'NOT_FOUND'
+        ? '❌ CAT# not found. Please retake the image.'
+        : `✅ CAT# detected: ${catNumber}`
+    );
+  } catch (err) {
+    console.error('OCR error:', err);
+    showToast('❌ OCR failed. Please retake the image.');
+  }
+}
+
+// 🧠 Extract only CAT# value
+function extractCatNumber(text) {
+  const cleaned = text.replace(/[^a-zA-Z0-9#]/g, ' ').toUpperCase();
+  const tokens = cleaned.split(/\s+/);
+
+  for (let i = 0; i < tokens.length - 1; i++) {
+    if (tokens[i] === 'CAT#' || tokens[i].startsWith('CAT#')) {
+      const direct = tokens[i].replace('CAT#', '');
+      if (/^[A-Z0-9]{4,15}$/.test(direct)) return direct;
+
+      const next = tokens[i + 1];
+      if (/^[A-Z0-9]{4,15}$/.test(next)) return next;
+    }
+  }
+
+  return 'NOT_FOUND';
+}
+
+// 🧼 Preprocess image for OCR
+async function preprocessImage(file) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.filter = 'contrast(150%) brightness(120%) grayscale(100%)';
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob(resolve, 'image/png');
+    };
+
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+// 🍞 Toast feedback
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.style.display = 'block';
+  setTimeout(() => (toast.style.display = 'none'), 3000);
+}
+ 
 
 
 </body>
