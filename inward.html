@@ -240,6 +240,7 @@
 <!-- 📦 Scanned QR ID Field -->
 <div style="margin-top: 10px;">
   <label for="qr-result">Scanned QR ID:</label>
+  <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
   <input
     type="text"
     id="qr-result"
@@ -251,7 +252,7 @@
 
 <!-- 📷 QR Scanner UI -->
 <div class="container" style="margin-top: 20px;">
-  <h1>Scan QR Codes</h1>
+  <h3>Scan QR Codes</h3>
   <div class="section">
     <div id="my-qr-reader"></div>
   </div>
@@ -293,9 +294,7 @@ domReady(function () {
 });
 
 </script>
-
-
-        
+       
         
         <label>📦 Packing:</label>
         <select name="packing" required class="half-width">
