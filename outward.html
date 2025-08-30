@@ -235,42 +235,132 @@
   </div>
 
 <script>
-  let itemData = []; // Store full item list with stock
+  let itemData = [];
 
-  // 🔄 Load item names and attach listener
-  async function loadItemNames() {
-    const jsonUrl = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
+  // 🌐 Fetch item data from API
+  async function fetchItemData(url) {
     try {
-      const response = await fetch(jsonUrl);
-      itemData = await response.json();
-
-      const select = document.getElementById('itemName');
-      select.innerHTML = '<option value="" disabled selected>Select item</option>';
-
-      itemData.forEach(({ item }) => {
-        const option = document.createElement('option');
-        option.value = item;
-        option.textContent = item;
-        select.appendChild(option);
-      });
-
-      select.addEventListener('change', updateBalanceStock);
+      const response = await fetch(url);
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
     } catch (error) {
-      console.error('❌ Failed to load item names:', error);
-      document.getElementById('itemName').innerHTML = '<option value="" disabled selected>Items unavailable</option>';
+      console.error("❌ Failed to fetch item data:", error);
+      return [];
     }
   }
 
-  // 📦 Update balance stock field
-  function updateBalanceStock() {
-    const selectedItem = document.getElementById('itemName').value;
-    const match = itemData.find(obj => obj.item === selectedItem);
-    const stockField = document.getElementById('balancecheck');
+  // 🧩 Populate item dropdown
+  function populateItemDropdown(items) {
+    const select = document.getElementById("itemName");
+    if (!select) return;
 
-    stockField.value = match ? `📦 ${match.stock}` : '📦 N/A';
+    select.innerHTML = '<option value="" disabled selected>Select item</option>';
+
+    items.forEach(({ item }) => {
+      if (item) {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        select.appendChild(option);
+      }
+    });
+
+    select.addEventListener("change", updateBalanceStock);
   }
 
-  // 🚚 Handle outward form submission
+  // 📦 Update stock display
+  function updateBalanceStock() {
+    const selectedItem = document.getElementById("itemName")?.value;
+    const stockField = document.getElementById("balancecheck");
+    const match = itemData.find(obj => obj.item === selectedItem);
+
+    if (stockField) {
+      stockField.value = match ? `📦 ${match.stock}` : "📦 N/A";
+    }
+  }
+
+  // 🚚 Submit outward form
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    toggleSubmitState(true);
+
+    const formData = new FormData(form);
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData
+      }).then(res => res.text());
+
+      response.includes("✅")
+        ? showToast("🚚 Shipment recorded successfully", 3000)
+        : showError(response);
+    } catch (error) {
+      showError(`❌ Network error: ${error.message}`);
+      console.error("Outward form error:", error);
+    }
+  }
+
+  // 🔄 Toggle submit button state
+  function toggleSubmitState(isSubmitting) {
+    submitBtn.disabled = isSubmitting;
+    btnText.textContent = isSubmitting ? "Submitting..." : "Submit";
+    spinner.style.display = isSubmitting ? "inline" : "none";
+  }
+
+  // 🧼 Reset form after delay
+  function resetFormAfterDelay(delay) {
+    setTimeout(() => {
+      form.reset();
+      document.getElementById("balancecheck").value = "";
+      messageBox.textContent = "";
+      toggleSubmitState(false);
+    }, delay);
+  }
+
+  // 🔔 Toast feedback
+  function showToast(message, delay = 2000) {
+    if (!toast) {
+      console.warn("Toast element not found.");
+      return;
+    }
+    toast.textContent = message;
+    toast.style.display = "block";
+    setTimeout(() => window.location.reload(), delay);
+  }
+
+  // ⚠️ Error feedback
+  function showError(msg) {
+    messageBox.innerHTML = `<div class="error">${msg}</div>`;
+    toggleSubmitState(false);
+  }
+
+  // 📅 Set today's date
+  function setCurrentDate() {
+    const dateEl = document.getElementById("currentDate");
+    if (dateEl) {
+      dateEl.textContent = new Date().toLocaleDateString("en-GB", {
+        day: "2-digit", month: "short", year: "numeric"
+      });
+    }
+  }
+
+  // 🚀 Initialize outward form
+  async function initOutwardForm() {
+    setCurrentDate();
+
+    const jsonUrl = 'https://script.google.com/macros/s/AKfycbwfNc9eaJR2x0nKgudFew3jBC0x0YPrbjH0QGUjXo61MJTjKuDQMHJUQxoinQuKid0S/exec';
+    itemData = await fetchItemData(jsonUrl);
+
+    if (itemData.length) {
+      populateItemDropdown(itemData);
+    } else {
+      document.getElementById("itemName").innerHTML =
+        '<option value="" disabled selected>Items unavailable</option>';
+    }
+  }
+
+  // 🧩 DOM references
   const form = document.getElementById("outwardForm");
   const submitBtn = document.getElementById("submitBtn");
   const btnText = document.getElementById("btnText");
@@ -278,72 +368,11 @@
   const messageBox = document.getElementById("message");
   const toast = document.getElementById("toast");
 
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-
-    submitBtn.disabled = true;
-    btnText.textContent = "Submitting...";
-    spinner.style.display = "inline";
-
-    const formData = new FormData(form);
-
-    fetch(form.action, {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.text())
-    .then(response => {
-      if (response.includes("✅")) {
-        showToast("🚚 Shipment recorded successfully");
-        resetFormAfterDelay(3000);
-      } else {
-        showError(response);
-      }
-    })
-    .catch(error => {
-      showError(`❌ Network error: ${error.message}`);
-      console.error("Outward form error:", error);
-    });
+  // 📌 Event bindings
+  document.addEventListener("DOMContentLoaded", () => {
+    initOutwardForm();
+    form?.addEventListener("submit", handleFormSubmit);
   });
-
-  // 🧼 Reset form and UI
-  function resetFormAfterDelay(delay) {
-    setTimeout(() => {
-      form.reset();
-      document.getElementById("balancecheck").value = "";
-      messageBox.textContent = "";
-      submitBtn.disabled = false;
-      btnText.textContent = "Submit";
-      spinner.style.display = "none";
-    }, delay);
-  }
-
-  // 🔔 Toast feedback
-  function showToast(message) {
-    if (!toast) {
-      console.warn("Toast element not found.");
-      return;
-    }
-    toast.textContent = message;
-    toast.style.display = "block";
-    setTimeout(() => window.location.reload(), 2000);
-  }
-
-  // ⚠️ Error display
-  function showError(msg) {
-    messageBox.innerHTML = `<div class="error">${msg}</div>`;
-    submitBtn.disabled = false;
-    btnText.textContent = "Submit";
-    spinner.style.display = "none";
-  }
-
-  // 📅 Auto-fill today's date
-  document.getElementById("currentDate").textContent = new Date().toLocaleDateString("en-GB", {
-    day: "2-digit", month: "short", year: "numeric"
-  });
-
-  // 🚀 Initialize
-  window.onload = loadItemNames;
 </script>
   
 </body>
