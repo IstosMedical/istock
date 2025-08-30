@@ -201,6 +201,64 @@
           <option value="" disabled selected>Loading items...</option>
         </select>
 
+<!-- 📦 Scanned QR ID Field -->
+<div style="margin-top: 10px;">
+  <label for="qr-result">Scanned QR ID:</label>
+  <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
+  <input
+    type="text"
+    id="qr-result"
+    name="qr-result"
+    readonly
+    style="font-weight: bold; background: #f0f0f0;"
+  />
+</div>
+
+<!-- 📷 QR Scanner UI -->
+<div class="container" style="margin-top: 20px;">
+  <h3>Scan QR Codes</h3>
+  <div class="section">
+    <div id="my-qr-reader"></div>
+  </div>
+</div>
+
+<!-- 📜 QR Scanner Script -->
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+  function domReady(fn) {
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      setTimeout(fn, 1000);
+    } else {
+      document.addEventListener("DOMContentLoaded", fn);
+    }
+  }
+
+domReady(function () {
+  loadItemNames(); // ✅ This ensures item names load on page render
+
+  const scanner = new Html5QrcodeScanner("my-qr-reader", {
+    fps: 10,
+    qrbox: 250
+  });
+
+  function onScanSuccess(decodedText, decodedResult) {
+    const qrField = document.getElementById("qr-result");
+    if (qrField) qrField.value = decodedText;
+
+    alert("✅ QR Code scanned: " + decodedText);
+
+    scanner.clear().then(() => {
+      document.getElementById("my-qr-reader").innerHTML = "";
+    }).catch((err) => {
+      console.error("Failed to clear scanner:", err);
+    });
+  }
+
+  scanner.render(onScanSuccess);
+});
+
+</script>
+
       <label>📦 Packing:</label>
         <select name="packing" required class="half-width">
           <option value="" disabled selected>Pack Type</option>
