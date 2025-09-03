@@ -73,7 +73,15 @@
     <input type="text" id="searchInput" placeholder="🔍 Search item..." />
   </div>
 
-  <button id="refreshBtn" class="refresh-button">🔄 Refresh Stock</button>
+  <div style="margin-bottom: 12px;">
+  <button id="refreshBtn" class="refresh-button" style="background-color: #2980b9; color: white; margin-right: 12px;">
+    🔄 Refresh Stock
+  </button>
+
+  <button type="button" onclick="window.location.href='https://istosmedical.github.io/istock/'" style="background-color: #4CAF50; color: white; padding: 10px 16px; font-size: 16px; border-radius: 6px; border: none; cursor: pointer;">
+    🔙 Back
+  </button>
+</div>
 
   <div class="grid" id="stockGrid">
     <!-- Cards will be injected here -->
