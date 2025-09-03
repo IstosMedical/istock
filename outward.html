@@ -282,12 +282,17 @@ domReady(function () {
       <label>🔤 Remarks: (Optional field)</label>
         <textarea name="remarks" rows="2" placeholder="Add any relevant notes..."></textarea>
                 
-      <div style="text-align: center;">
-        <button type="submit" id="submitBtn">
-          <span id="btnText">Submit</span>
-          <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
-        </button>
-      </div>
+        <div style="text-align: center; margin-top: 30px;">
+          <button type="submit" id="submitBtn" style="background-color: #2980b9; color: white; margin-right: 12px;">
+            <span id="btnText">Submit</span>
+            <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
+          </button>
+        
+          <button type="button" onclick="window.location.href='https://istosmedical.github.io/istock/'" style="background-color: #4CAF50; color: white;">
+            Back
+          </button>
+        </div>
+      </form>
     </form>
 
     <div id="message"></div>
