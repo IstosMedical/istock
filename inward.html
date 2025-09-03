@@ -317,10 +317,16 @@ domReady(function () {
         <textarea name="remarks" rows="2" placeholder="Add any relevant notes..."></textarea>
         <small style="color: grey; display: block; margin-top: 6px; margin-bottom: 10px;">This is an optional field</small>
   
-        <button type="submit" id="submitBtn">
-          <span id="btnText">Submit</span>
-          <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
-        </button>
+        <div style="text-align: center; margin-top: 30px;">
+          <button type="submit" id="submitBtn" style="background-color: #4CAF50; color: white; margin-right: 12px;">
+            <span id="btnText">Submit</span>
+            <span id="spinner" style="display: none; margin-left: 8px;">⏳</span>
+          </button>
+        
+          <button type="button" onclick="window.location.href='https://istosmedical.github.io/istock/'" style="background-color: #4CAF50; color: white;">
+            🔙 Back
+          </button>
+        </div>
       </form>
   
         <div id="message"></div>
