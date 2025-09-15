@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>iStock management system</title>
+  <title>ISTOS Stocks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- PWA Meta Tags for Mobile Installability -->
-    <meta name="theme-color" content="#0055a5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="ISTOCK">
-    <link rel="apple-touch-icon" href="istock/istos-logo.png">
-    <link rel="manifest" href="manifest.json">
+  <!-- android App Settings -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- iOS App Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ISTOS Stock Radar">
+  <link rel="apple-touch-icon" href="icons/istos_logo.png">
 
   <style>
     body {
@@ -19,7 +20,7 @@
       margin: 0;
       padding: 0;
       background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
-                  url('stock.png') no-repeat center center fixed;
+                  url('OLC2.png') no-repeat center center fixed;
       background-size: cover;
       text-align: center;
     }
@@ -52,14 +53,6 @@
       margin-bottom: 30px;
     }
 
-    .button-column {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    
     button {
       padding: 12px 24px;
       font-size: 16px;
@@ -76,19 +69,6 @@
       transform: scale(1.05);
     }
 
-    .status-row {
-      text-align: center;
-      font-size: 1.5rem;
-      margin-top: 8px;
-    }
-    
-    .label {
-      display: block;
-      font-size: 1rem;
-      margin-top: 4px;
-      color: #333;
-    }
-
     @media screen and (max-width: 600px) {
       .container {
         margin: 40px 20px;
@@ -103,14 +83,13 @@
 </head>
 <body>
   <div class="container">
-    <img src="istos-logo.png" alt="ISTOCK Logo" class="logo" />
-    <h3>Welcome to Istos Medical</h3>
+    <img src="icons/mini.png" alt="ISTOS Medical Logo" class="logo">
+    <h3>Welcome to ISTOS MEDICAL</h3>
     <p>Choose an action below:</p>
-<div class="button-column">
-  <a href="inward.html" class="button">📦 Inward Stock</a>
-  <a href="outward.html" class="button">🚚 Outward Stock</a>
-  <a href="dashboard.html" class="button">✅🟨🟥 Stock availability</a>
-</div>
+    <button onclick="window.location.href='https://istosmedical.github.io/lead-form/inward.html'">📦 Inward Stock</button><BR><BR><BR>
+    <button onclick="window.location.href='https://istosmedical.github.io/lead-form/outward.html'">🚚 Outward Stock</button><BR><BR><BR>
+    <button onclick="window.location.href='https://istosmedical.github.io/lead-form/outward.html'">✅🟨🟥 Stock availability</button>
+  </div>
 
 </body>
 </html>
